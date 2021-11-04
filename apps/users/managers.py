@@ -29,11 +29,21 @@ class UserManager(BaseUserManager):
         return user
 
     @staticmethod
-    def to_superuser(user):
-        user.is_superuser = False
+    def to_menager(user):
+        user.is_staff = True
         user.save()
 
     @staticmethod
     def to_user(user):
-        user.is_superuser = True
+        user.is_staff = False
+        user.save()
+
+    @staticmethod
+    def to_active(user):
+        user.is_active = True
+        user.save()
+
+    @staticmethod
+    def to_notactive(user):
+        user.is_active = False
         user.save()

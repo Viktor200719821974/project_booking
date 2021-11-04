@@ -14,4 +14,4 @@ class ApartmentModelSerializer(ModelSerializer):
 
     class Meta:
         model = ApartmentModel
-        fields = '__all__'
+        exclude = ('user',)
