@@ -20,6 +20,7 @@ from django.urls import include, path
 from bookingApps import settings
 
 urlpatterns = [
+    path('auth', include('apps.auth.urls')),
     path('users', include('apps.users.urls')),
     path('apartments', include('apps.apartments.urls')),
     path('comments_user', include('apps.comments_user.urls')),

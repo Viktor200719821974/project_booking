@@ -11,18 +11,18 @@ class ApartmentListCreateView(ListCreateAPIView):
     queryset = ApartmentModel.objects.all()
     serializer_class = ApartmentModelSerializer
 
-    def get_permissions(self):
-        if self.request.method == 'POST':
-            return AllowAny(),
-        return IsAuthenticated(),
+    # def get_permissions(self):
+    #     if self.request.method == 'POST':
+    #         return IsAuthenticated(),
+    #     return AllowAny(),
 
 
 class ApartmentRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = ApartmentModel.objects.all()
     serializer_class = ApartmentModelSerializer
 
-    def get_permissions(self):
-        return IsAdminUser(),
+    # def get_permissions(self):
+    #     return IsAdminUser(),
 
 
 class PhotoRoomsView(GenericAPIView):

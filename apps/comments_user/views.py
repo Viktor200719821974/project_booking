@@ -11,11 +11,6 @@ class CommentsUserListCreateView(ListCreateAPIView):
     queryset = CommentsUserModel.objects.all()
     serializer_class = CommentsUserModelSerializer
 
-    def get_permissions(self):
-        if self.request.method == 'POST':
-            return AllowAny(),
-        return IsAuthenticated(),
-
 
 class CommentsUserRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = CommentsUserModel.objects.all()

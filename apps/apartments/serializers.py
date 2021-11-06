@@ -14,4 +14,8 @@ class ApartmentModelSerializer(ModelSerializer):
 
     class Meta:
         model = ApartmentModel
-        exclude = ('user',)
+        fields = '__all__'
+        # exclude = ('user',)
+        extra_kwargs = {
+            'user': {'read_only': True},
+        }

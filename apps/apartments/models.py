@@ -17,16 +17,18 @@ class ApartmentModel(models.Model):
                                validators=[
                                    V.RegexValidator('^[A-Za-z]{,30}$', 'Country must be A-Z, a-z, max-length=30')])
     city = models.CharField(max_length=30,
-                               validators=[
-                                   V.RegexValidator('^[A-Za-z]{,30}$', 'City must be A-Z, a-z, max-length=30')])
+                            validators=[
+                                V.RegexValidator('^[A-Za-z]{,30}$', 'City must be A-Z, a-z, max-length=30')])
     region = models.CharField(max_length=30,
                               validators=[
                                   V.RegexValidator('^[A-Za-z]{,30}$', 'Region must be A-Z, a-z, max-length=30')])
     numbers_squares = models.IntegerField(
-                              validators=[V.MinValueValidator(30, message='Numbers of squares must be min value 30')])
+        validators=[V.MinValueValidator(30, message='Numbers of squares must be min value 30')])
 
-    numbers_people = models.IntegerField(validators=[V.MinValueValidator(1, message='Numbers of people must be min value 1') ])
-    numbers_rooms = models.IntegerField(validators=[V.MinValueValidator(1, message='Numbers of rooms must be min value 1')])
+    numbers_people = models.IntegerField(
+        validators=[V.MinValueValidator(1, message='Numbers of people must be min value 1')])
+    numbers_rooms = models.IntegerField(
+        validators=[V.MinValueValidator(1, message='Numbers of rooms must be min value 1')])
     price = models.FloatField()
     user = models.OneToOneField(UserModel, on_delete=models.CASCADE, related_name='apartments')
 
