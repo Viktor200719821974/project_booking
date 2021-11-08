@@ -10,7 +10,6 @@ from .permissions import IsSuperUser, IsMenagerUser
 from  apps.apartments.models import ApartmentModel
 from apps.apartments.serializers import ApartmentModelSerializer
 
-
 UserModel: User = get_user_model()
 
 
