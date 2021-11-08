@@ -18,10 +18,10 @@ class UsersListCreateView(ListCreateAPIView):
     queryset = UserModel.objects.all()
     serializer_class = UserModelSerializer
 
-    # def get_permissions(self):
-    #     if self.request.method == 'POST':
-    #         return AllowAny(),
-    #     return IsAuthenticated(),
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            return AllowAny(),
+        return IsAuthenticated(),
 
     def get_queryset(self):
         return UserModel.objects.exclude(id=self.request.user.id)
@@ -34,12 +34,12 @@ class UserRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = UserModel.objects.all()
     serializer_class = UserModelSerializer
 
-    # def get_permissions(self):
-    #     return IsAdminUser(),
+    def get_permissions(self):
+        return IsAdminUser(),
 
 
 class UserBlockedView(GenericAPIView):
-    # permission_classes = (IsMenagerUser,)
+    permission_classes = (IsMenagerUser,)
     queryset = UserModel.objects.all()
 
     def patch(self, *args, **kwargs):
@@ -58,7 +58,7 @@ class UserBlockedView(GenericAPIView):
 
 
 class UserToMenagerView(GenericAPIView):
-    # permission_classes = (IsSuperUser,)
+    permission_classes = (IsSuperUser,)
     queryset = UserModel.objects.all()
 
     def patch(self, *args, **kwargs):
