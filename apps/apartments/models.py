@@ -9,8 +9,6 @@ from apps.users.models import UserModel
 class ApartmentModel(models.Model):
     class Meta:
         db_table = 'apartments'
-        verbose_name = 'Квартира'
-        verbose_name_plural = 'Квартира'
         ordering = ('id',)
 
     country = models.CharField(max_length=30,
@@ -30,7 +28,7 @@ class ApartmentModel(models.Model):
     numbers_rooms = models.IntegerField(
         validators=[V.MinValueValidator(1, message='Numbers of rooms must be min value 1')])
     price = models.FloatField()
-    user = models.OneToOneField(UserModel, on_delete=models.CASCADE, related_name='apartments')
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='apartments')
 
 
 class PhotoRoomsModel(models.Model):
