@@ -38,52 +38,51 @@ class UserRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     #     return IsAdminUser(),
 
 
-class UserBlockedView(GenericAPIView):
-    # permission_classes = (IsMenagerUser,)
-    queryset = UserModel.objects.all()
-
-    def patch(self, *args, **kwargs):
-        user = self.get_object()
-        UserModel.objects.to_active(user)
-        user.save()
-        data = UserModelSerializer(user).data
-        return Response(data, status.HTTP_200_OK)
-
-    def put(self, *args, **kwargs):
-        user = self.get_object()
-        UserModel.objects.to_notactive(user)
-        user.save()
-        data = UserModelSerializer(user).data
-        return Response(data, status.HTTP_200_OK)
-
-
-class UserToMenagerView(GenericAPIView):
-    # permission_classes = (IsSuperUser,)
-    queryset = UserModel.objects.all()
-
-    def patch(self, *args, **kwargs):
-        user = self.get_object()
-        UserModel.objects.to_menager(user)
-        user.save()
-        data = UserModelSerializer(user).data
-        return Response(data, status.HTTP_200_OK)
-
-    def put(self, *args, **kwargs):
-        user = self.get_object()
-        UserModel.objects.to_user(user)
-        user.save()
-        data = UserModelSerializer(user).data
-        return Response(data, status.HTTP_200_OK)
-
-
-class UserAddApartmentView(CreateAPIView):
-    serializer_class = ApartmentModelSerializer
-    queryset = UserModel.objects.all()
-
-    # def get_permissions(self):
-    #     return IsAuthenticated(),
-
-    def perform_create(self, serializer):
-        user = self.get_object()
-        print(user)
-        serializer.save(user=user)
+# class UserBlockedView(GenericAPIView):
+#     # permission_classes = (IsMenagerUser,)
+#     queryset = UserModel.objects.all()
+#
+#     def patch(self, *args, **kwargs):
+#         user = self.get_object()
+#         UserModel.objects.to_active(user)
+#         user.save()
+#         data = UserModelSerializer(user).data
+#         return Response(data, status.HTTP_200_OK)
+#
+#     def put(self, *args, **kwargs):
+#         user = self.get_object()
+#         UserModel.objects.to_notactive(user)
+#         user.save()
+#         data = UserModelSerializer(user).data
+#         return Response(data, status.HTTP_200_OK)
+#
+#
+# class UserToManagerView(GenericAPIView):
+#     # permission_classes = (IsSuperUser,)
+#     queryset = UserModel.objects.all()
+#
+#     def patch(self, *args, **kwargs):
+#         user = self.get_object()
+#         UserModel.objects.to_menager(user)
+#         user.save()
+#         data = UserModelSerializer(user).data
+#         return Response(data, status.HTTP_200_OK)
+#
+#     def put(self, *args, **kwargs):
+#         user = self.get_object()
+#         UserModel.objects.to_user(user)
+#         user.save()
+#         data = UserModelSerializer(user).data
+#         return Response(data, status.HTTP_200_OK)
+#
+#
+# class UserAddApartmentView(CreateAPIView):
+#     serializer_class = ApartmentModelSerializer
+#     queryset = UserModel.objects.all()
+#
+#     # def get_permissions(self):
+#     #     return IsAuthenticated(),
+#
+#     def perform_create(self, serializer):
+#         user = self.get_object()
+#         serializer.save(user=user)

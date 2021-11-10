@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
+from bookingApps.extra_config import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
 
     'bookingApps',
     'apps.users',
+    'apps.profile',
     'apps.apartments',
     'apps.comments_apartment',
     'apps.comments_user',

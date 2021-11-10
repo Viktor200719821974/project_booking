@@ -1,6 +1,7 @@
 from rest_framework.serializers import ModelSerializer
 
 from .models import ApartmentModel, PhotoRoomsModel
+from apps.comments_apartment.serializers import CommentsApartmentModelSerializer
 
 
 class PhotoRoomsSerializer(ModelSerializer):
@@ -11,11 +12,9 @@ class PhotoRoomsSerializer(ModelSerializer):
 
 class ApartmentModelSerializer(ModelSerializer):
     photo_rooms = PhotoRoomsSerializer(many=True, read_only=True)
+    comments_apartment = CommentsApartmentModelSerializer()
 
     class Meta:
         model = ApartmentModel
-        fields = '__all__'
-        # exclude = ('user',)
-        extra_kwargs = {
-            'user': {'read_only': True},
-        }
+        exclude = ('user_apartment',)
+
