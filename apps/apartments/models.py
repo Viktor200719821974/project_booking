@@ -28,7 +28,7 @@ class ApartmentModel(models.Model):
     numbers_rooms = models.IntegerField(
         validators=[V.MinValueValidator(1, message='Numbers of rooms must be min value 1')])
     price = models.FloatField()
-    user_apartment = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='apartments')
+    user_apartment = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='apartment')
 
 
 class PhotoRoomsModel(models.Model):

@@ -11,6 +11,6 @@ REST_FRAMEWORK = {
     # 'DEFAULT_FILTER_BACKENDS':[
     #   'django_filters.rest_framework.DjangoFilterBackend'
     # ],
-    # 'DEFAULT_PAGINATION_CLASS': 'paginations.page_number_paginator.PageNumberPaginator',
-    # 'EXCEPTION_HANDLER': 'django4.error_handler.custom_exception_handler'
+    'DEFAULT_PAGINATION_CLASS': 'paginations.page_number_paginator.PageNumberPaginator',
+    'EXCEPTION_HANDLER': 'bookingApps.error_handler.custom_exception_handler'
 }

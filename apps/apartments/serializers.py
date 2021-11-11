@@ -12,7 +12,7 @@ class PhotoRoomsSerializer(ModelSerializer):
 
 class ApartmentModelSerializer(ModelSerializer):
     photo_rooms = PhotoRoomsSerializer(many=True, read_only=True)
-    comments_apartment = CommentsApartmentModelSerializer()
+    comments_apartment = CommentsApartmentModelSerializer(many=True, read_only=True)
 
     class Meta:
         model = ApartmentModel

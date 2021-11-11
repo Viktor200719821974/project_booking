@@ -16,6 +16,10 @@ class ApartmentListCreateView(ListCreateAPIView):
             return IsAuthenticated(),
         return AllowAny(),
 
+    def perform_create(self, serializer):
+        user_id = self.request.user.id
+        serializer.save(user_apartment_id=user_id)
+
 
 class ApartmentRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = ApartmentModel.objects.all()
@@ -30,7 +34,10 @@ class PhotoRoomsView(GenericAPIView):
     def patch(self, *args, **kwargs):
         photo_data = self.request.FILES.get('photo_rooms')
         serializer = PhotoRoomsSerializer(data={'url': photo_data})
+        print(self.request)
         serializer.is_valid(raise_exception=True)
-        serializer.save(profile=self.request.apartment)
-        apartment = ApartmentModelSerializer(self.request.apartment).data
+        print(self.request.apartments.user)
+        serializer.save(apartment=self.request.apartments.user)
+        print('hello')
+        apartment = ApartmentModelSerializer(self.request.apartments).data
         return Response(apartment, status.HTTP_200_OK)
