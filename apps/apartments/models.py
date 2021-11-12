@@ -1,7 +1,7 @@
 from django.core import validators as V
 from django.db import models
 
-from bookingApps.utils.photo_rooms_utils import PhotoRoomsUtils
+from bookingApps.utils.photo_utils import PhotoRoomsUtils
 from apps.users.models import UserModel
 
 

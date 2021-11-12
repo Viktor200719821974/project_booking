@@ -17,5 +17,4 @@ class CommentsApartmentModelSerializer(ModelSerializer):
         model = CommentsApartmentModel
         exclude = ('apartment',)
 
-    # def create(self, validated_data: dict):
-    #     comments_apartment = validated_data.pop('comments_apartment')
+

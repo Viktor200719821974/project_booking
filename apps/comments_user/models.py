@@ -2,7 +2,7 @@ from django.core import validators as V
 from django.db import models
 
 from apps.users.models import UserModel
-from bookingApps.utils.photo_rooms_utils import PhotoUtils
+from bookingApps.utils.photo_utils import PhotoUtils
 
 
 class CommentsUserModel(models.Model):

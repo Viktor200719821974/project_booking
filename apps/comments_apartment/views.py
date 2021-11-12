@@ -1,6 +1,5 @@
-
 from rest_framework import status
-from rest_framework.generics import (GenericAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView)
+from rest_framework.generics import GenericAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 
@@ -13,15 +12,17 @@ class CommentsApartmentListCreateView(ListCreateAPIView):
     serializer_class = CommentsApartmentModelSerializer
 
     def get_permissions(self):
-        if self.request.method == 'POST':
-            return AllowAny(),
-        return IsAuthenticated(),
+        return AllowAny(),
+
+    def perform_create(self, serializer):
+        apartment_id = self.request.query_params.get('apartmentId')
+        print(apartment_id)
+        serializer.save(apartments_id=apartment_id)
 
 
 class CommentsApartmentRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = CommentsApartmentModel.objects.all()
     serializer_class = CommentsApartmentModelSerializer
-
 
     def get_permissions(self):
         return IsAdminUser(),

@@ -23,11 +23,11 @@ class UsersListCreateView(ListCreateAPIView):
             return AllowAny(),
         return IsAdminUser(),
 
-    # def get_queryset(self):
-    #     return UserModel.objects.exclude(id=self.request.user.id)
-    #
-    # def get_serializer_context(self):
-    #     return {'request':self.request}
+    def get_queryset(self):
+        return UserModel.objects.exclude(id=self.request.user.id)
+
+    def get_serializer_context(self):
+        return {'request':self.request}
 
 
 class UserRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
@@ -76,13 +76,3 @@ class UserToManagerView(GenericAPIView):
         return Response(data, status.HTTP_200_OK)
 
 
-# class UserAddApartmentView(CreateAPIView):
-#     serializer_class = ApartmentModelSerializer
-#     queryset = UserModel.objects.all()
-#
-#     def get_permissions(self):
-#         return IsAuthenticated(),
-#
-#     def perform_create(self, serializer):
-#         user = self.get_object()
-#         serializer.save(user=user)

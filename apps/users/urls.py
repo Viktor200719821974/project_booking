@@ -5,9 +5,8 @@ from .views import UsersListCreateView, UserRetrieveUpdateDestroyView, UserToMan
 
 
 urlpatterns = [
-    path('', UsersListCreateView.as_view()),
-    path('/<int:pk>', UserRetrieveUpdateDestroyView.as_view()),
-    path('/<int:pk>/manager', UserToManagerView.as_view()),
-    path('/<int:pk>/blocked', UserBlockedView.as_view()),
-    # path('/<int:pk>/apartment', UserAddApartmentView.as_view())
+    path('', UsersListCreateView.as_view(), name='users_getAll_post'),
+    path('/<int:pk>', UserRetrieveUpdateDestroyView.as_view(), name='user_get_patch_put_delete'),
+    path('/<int:pk>/manager', UserToManagerView.as_view(), name='users_manager'),
+    path('/<int:pk>/blocked', UserBlockedView.as_view(), name='users_blocked_user'),
    ]
