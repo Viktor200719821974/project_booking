@@ -14,5 +14,5 @@ class Vle3Exception(Exception):
     pass
 
 
-class BoolException(Exception):
+class REQUESTException(Exception):
     pass

@@ -9,7 +9,7 @@ def custom_exception_handler(exc, content) -> Response:
         'Vle1Exception': _vle1_valid_error,
         'Vle2Exception': _vle2__error,
         'Vle3Exception': _vle3_error,
-        'BoolException': _bool_error
+        'REQUESTException': _request_error
 
     }
     response = exception_handler(exc, content)
@@ -45,7 +45,7 @@ def _vle3_error(exc, content) -> Response:
     return Response(ErrorEnum.VLE3.msg, ErrorEnum.VLE3.code)
 
 
-def _bool_error(exc, content) -> Response:
+def _request_error(exc, content) -> Response:
     print(exc.__class__)
     print(content)
-    return Response(ErrorEnum.BOOLE.msg, ErrorEnum.BOOLE.code)
+    return Response(ErrorEnum.REQUEST.msg, ErrorEnum.REQUEST.code)

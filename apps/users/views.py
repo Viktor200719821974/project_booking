@@ -27,7 +27,7 @@ class UsersListCreateView(ListCreateAPIView):
         return UserModel.objects.exclude(id=self.request.user.id)
 
     def get_serializer_context(self):
-        return {'request':self.request}
+        return {'request': self.request}
 
 
 class UserRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
@@ -74,5 +74,3 @@ class UserToManagerView(GenericAPIView):
         user.save()
         data = UserModelSerializer(user).data
         return Response(data, status.HTTP_200_OK)
-
-

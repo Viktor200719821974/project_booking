@@ -8,7 +8,7 @@ class ErrorEnum(Enum):
     VLE1 = 'The email must be set'
     VLE2 = 'Superuser must have is_staff=True'
     VLE3 = 'Superuser must have is_superuser=True'
-    BOOLE = 'Value must be 0 and 1'
+    REQUEST = 'Not Found'
 
     def __init__(self, msg, code=status.HTTP_400_BAD_REQUEST):
         self.msg = msg

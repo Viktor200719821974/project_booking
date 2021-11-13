@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'apps.apartments',
     'apps.comments_apartment',
     'apps.comments_user',
+    'apps.date_selection',
 ]
 
 MIDDLEWARE = [

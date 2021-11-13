@@ -10,7 +10,7 @@ class PhotoSerializer(ModelSerializer):
 
 
 class CommentsUserModelSerializer(ModelSerializer):
-    photo = PhotoSerializer(many=True, read_only=True)
+    photo_comments_user = PhotoSerializer(many=True, read_only=True)
 
     class Meta:
         model = CommentsUserModel

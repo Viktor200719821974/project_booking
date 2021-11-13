@@ -10,6 +10,7 @@ from apps.apartments.serializers import ApartmentModelSerializer
 from apps.apartments.models import ApartmentModel
 from apps.profile.serializers import ProfileSerializer
 from apps.profile.models import ProfileModel
+from apps.comments_user.serializers import CommentsUserModelSerializer
 
 UserModel: User = get_user_model()
 
@@ -17,12 +18,13 @@ UserModel: User = get_user_model()
 class UserModelSerializer(ModelSerializer):
     profile = ProfileSerializer()
     apartment = ApartmentModelSerializer(many=True, read_only=True)
+    comments_user = CommentsUserModelSerializer(many=True, read_only=True)
 
     class Meta:
         model = UserModel
         fields = (
             'id', 'email', 'password', 'is_active', 'is_staff', 'is_superuser', 'last_login', 'created_at',
-            'updated_at', 'profile', 'apartment'
+            'updated_at', 'profile', 'apartment', 'comments_user',
         )
         extra_kwargs = {
             'password': {'write_only': True}

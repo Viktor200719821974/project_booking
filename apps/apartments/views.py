@@ -5,8 +5,6 @@ from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 
 from .models import ApartmentModel, PhotoRoomsModel
 from .serializers import ApartmentModelSerializer, PhotoRoomsSerializer
-from apps.comments_apartment.serializers import CommentsApartmentModelSerializer
-from apps.comments_apartment.models import CommentsApartmentModel
 
 
 class ApartmentListCreateView(ListCreateAPIView):

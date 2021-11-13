@@ -24,6 +24,7 @@ urlpatterns = [
     path('users', include('apps.users.urls')),
     path('apartments', include('apps.apartments.urls')),
     path('comments_user', include('apps.comments_user.urls')),
-    path('comments_apartment', include('apps.comments_apartment.urls'))
+    path('comments_apartment', include('apps.comments_apartment.urls')),
+    path('date_selection', include('apps.date_selection.urls'))
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

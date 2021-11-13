@@ -1,7 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 
 from .models import CommentsApartmentModel, PhotoModel
-from apps.apartments.models import ApartmentModel
 
 
 class PhotoSerializer(ModelSerializer):
@@ -11,7 +10,7 @@ class PhotoSerializer(ModelSerializer):
 
 
 class CommentsApartmentModelSerializer(ModelSerializer):
-    photo = PhotoSerializer(many=True, read_only=True)
+    photo_comments_apartment = PhotoSerializer(many=True, read_only=True)
 
     class Meta:
         model = CommentsApartmentModel
