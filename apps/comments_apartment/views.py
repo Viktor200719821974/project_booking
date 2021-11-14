@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 
 from .models import CommentsApartmentModel
-from .serializers import CommentsApartmentModelSerializer, PhotoSerializer
+from .serializers import CommentsApartmentModelSerializer, PhotoCommentApartmentSerializer
 from apps.apartments.models import ApartmentModel
 from exeptions.jwt_exeption import REQUESTException
 
@@ -39,7 +39,7 @@ class PhotoCommentApartmentView(GenericAPIView):
 
     def patch(self, *args, **kwargs):
         photo_data = self.request.FILES.get('photo_comments_apartment')
-        serializer = PhotoSerializer(data={'url': photo_data})
+        serializer = PhotoCommentApartmentSerializer(data={'url': photo_data})
         serializer.is_valid(raise_exception=True)
         pk = kwargs.get('pk')
         comment_photo = CommentsApartmentModel.objects.get(pk=pk)

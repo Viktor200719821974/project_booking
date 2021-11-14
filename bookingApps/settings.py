@@ -39,8 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
-    # 'django_filters',
-    # 'corsheaders',
+    'drf_yasg',
+    'django_filters',
+
 
     'bookingApps',
     'apps.users',
@@ -61,7 +62,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'bookingApps.urls'
+ROOT_URLCONF = 'urls.urls'
 
 TEMPLATES = [
     {

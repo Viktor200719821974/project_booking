@@ -61,6 +61,9 @@ class UserToManagerView(GenericAPIView):
     permission_classes = (IsSuperUser,)
     queryset = UserModel.objects.all()
 
+    def get_serializer_class(self):
+        return super().get_serializer_class()
+
     def patch(self, *args, **kwargs):
         user = self.get_object()
         UserModel.objects.to_menager(user)
@@ -74,3 +77,6 @@ class UserToManagerView(GenericAPIView):
         user.save()
         data = UserModelSerializer(user).data
         return Response(data, status.HTTP_200_OK)
+
+
+
