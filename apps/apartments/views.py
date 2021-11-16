@@ -8,6 +8,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from .models import ApartmentModel
 from .serializers import ApartmentModelSerializer, PhotoRoomsSerializer
 from .filters import ApartmentFilter
+from exeptions.jwt_exeption import REQUESTException
+
 
 # @method_decorator(name='get', decorator=swagger_auto_schema(operation_id='List of apartments', operation_summary='Get all'))
 class ApartmentListCreateView(ListCreateAPIView):
@@ -15,12 +17,11 @@ class ApartmentListCreateView(ListCreateAPIView):
     serializer_class = ApartmentModelSerializer
     filterset_class = ApartmentFilter
 
-    """
-    get:
-        Get all apartments
-    post:
-        Create apartment
-    """
+    #
+    #  get:
+    #      Get all apartments
+    #  post:
+    #      Create apartment
 
     def get_permissions(self):
         if self.request.method == 'POST':
@@ -35,17 +36,20 @@ class ApartmentListCreateView(ListCreateAPIView):
 class ApartmentRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = ApartmentModel.objects.all()
     serializer_class = ApartmentModelSerializer
-    """
-     Get:
-        get apartment
-    Put:
-        all update apartment
-    Patch:
-        update apartment
-    Delete:
-        delete apartment
-    """
+
+    # """
+    #  Get:
+    #     get apartment
+    # Put:
+    #     all update apartment
+    # Patch:
+    #     update apartment
+    # Delete:
+    #     delete apartment
+    # """
     def get_permissions(self):
+        if self.request.method == 'GET':
+            return AllowAny(),
         return IsAdminUser(),
 
 
@@ -60,4 +64,3 @@ class PhotoRoomsView(GenericAPIView):
         serializer.save(apartment=apartment)
         apartment_serializer = ApartmentModelSerializer(apartment).data
         return Response(apartment_serializer, status.HTTP_200_OK)
-

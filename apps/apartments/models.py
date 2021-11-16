@@ -37,3 +37,10 @@ class PhotoRoomsModel(models.Model):
 
     url = models.ImageField(upload_to=PhotoRoomsUtils.upload_to)
     apartment = models.ForeignKey(ApartmentModel, on_delete=models.CASCADE, related_name='photo_rooms')
+
+
+# class DateSelectionModel(models.Model):
+#     class Meta:
+#         db_table = 'date_selection'
+
+

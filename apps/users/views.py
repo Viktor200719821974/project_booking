@@ -41,6 +41,7 @@ class UserRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
 class UserBlockedView(GenericAPIView):
     permission_classes = (IsManagerUser,)
     queryset = UserModel.objects.all()
+    serializer_class = UserModelSerializer
 
     def patch(self, *args, **kwargs):
         user = self.get_object()
@@ -60,9 +61,7 @@ class UserBlockedView(GenericAPIView):
 class UserToManagerView(GenericAPIView):
     permission_classes = (IsSuperUser,)
     queryset = UserModel.objects.all()
-
-    def get_serializer_class(self):
-        return super().get_serializer_class()
+    serializer_class = UserModelSerializer
 
     def patch(self, *args, **kwargs):
         user = self.get_object()
