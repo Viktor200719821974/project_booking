@@ -1,27 +1,37 @@
 # from django.utils.decorators import method_decorator
 # from drf_yasg.utils import swagger_auto_schema
+from django.utils.decorators import method_decorator
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.generics import (GenericAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView)
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 
-from .models import ApartmentModel
+from bookingApps.utils.date_selection_utils import DateSelectionUtils
+from .models import ApartmentModel, PhotoRoomsModel
 from .serializers import ApartmentModelSerializer, PhotoRoomsSerializer
 from .filters import ApartmentFilter
-from exeptions.jwt_exeption import REQUESTException
+from exeptions.jwt_exeption import REQUESTException, BadDateExeption
+
+from ..date_selection.models import DateSelectionModel
+from ..date_selection.selializers import DateSelectionModelSerializer
 
 
-# @method_decorator(name='get', decorator=swagger_auto_schema(operation_id='List of apartments', operation_summary='Get all'))
+@method_decorator(name='get',
+                  decorator=swagger_auto_schema(operation_id='List of apartments', operation_summary='Get all'))
+@method_decorator(name='post',
+                  decorator=swagger_auto_schema(operation_id='Create apartment',
+                                                operation_summary='Create apartment'))
 class ApartmentListCreateView(ListCreateAPIView):
+    """
+    get:
+         Get all apartments
+    post:
+         Create apartment
+    """
     queryset = ApartmentModel.objects.all()
     serializer_class = ApartmentModelSerializer
     filterset_class = ApartmentFilter
-
-    #
-    #  get:
-    #      Get all apartments
-    #  post:
-    #      Create apartment
 
     def get_permissions(self):
         if self.request.method == 'POST':
@@ -33,27 +43,43 @@ class ApartmentListCreateView(ListCreateAPIView):
         serializer.save(user_apartment_id=user_id)
 
 
+@method_decorator(name='get',
+                  decorator=swagger_auto_schema(operation_id='Get of apartment', operation_summary='Get apartment'))
+@method_decorator(name='put',
+                  decorator=swagger_auto_schema(operation_id='All update of apartment', operation_summary='All update'))
+@method_decorator(name='patch',
+                  decorator=swagger_auto_schema(operation_id='Update apartment', operation_summary='Update apartment'))
+@method_decorator(name='delete',
+                  decorator=swagger_auto_schema(operation_id='Delete apartment', operation_summary='Delete apartment'))
 class ApartmentRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    """
+    get:
+        get apartment
+    put:
+        all update apartment
+    patch:
+        update apartment
+    delete:
+        delete apartment
+    """
     queryset = ApartmentModel.objects.all()
     serializer_class = ApartmentModelSerializer
 
-    # """
-    #  Get:
-    #     get apartment
-    # Put:
-    #     all update apartment
-    # Patch:
-    #     update apartment
-    # Delete:
-    #     delete apartment
-    # """
     def get_permissions(self):
         if self.request.method == 'GET':
             return AllowAny(),
         return IsAdminUser(),
 
 
+@method_decorator(name='patch',
+                  decorator=swagger_auto_schema(operation_id='Add photo rooms', operation_summary='Add photo'))
 class PhotoRoomsView(GenericAPIView):
+    """
+    patch:
+        add photo rooms
+    """
+    serializer_class = PhotoRoomsSerializer
+    queryset = PhotoRoomsModel.objects.all()
 
     def patch(self, *args, **kwargs):
         photo_data = self.request.FILES.get('photo_rooms')
@@ -64,3 +90,36 @@ class PhotoRoomsView(GenericAPIView):
         serializer.save(apartment=apartment)
         apartment_serializer = ApartmentModelSerializer(apartment).data
         return Response(apartment_serializer, status.HTTP_200_OK)
+
+
+@method_decorator(name='post',
+                  decorator=swagger_auto_schema(operation_id='Selected date arrival and departure',
+                                                operation_summary='Selected date'))
+class DateSelectionCreateView(CreateAPIView):
+    """
+    post:
+        selected date arrival and departure
+    """
+    queryset = DateSelectionModel.objects.all()
+    serializer_class = DateSelectionModelSerializer
+
+    def post(self, *args, **kwargs):
+        pk = kwargs.get('pk')
+        email = self.request.user
+        data = self.request.data
+        date_arrival_db = DateSelectionModel.objects.filter(apartment_id=pk).values('date_arrival')
+        date_departure_db = DateSelectionModel.objects.filter(apartment_id=pk).values('date_departure')
+        price = ApartmentModel.objects.filter(pk=pk).values('price')[0].get('price')
+        numbers_days = DateSelectionUtils.date_selection(self.request)
+        cost = numbers_days * price
+        exists = ApartmentModel.objects.filter(pk=pk).exists()
+        if not exists:
+            raise REQUESTException
+        apartment = ApartmentModel.objects.get(pk=pk)
+        if DateSelectionModel.objects.filter(
+                DateSelectionUtils.date_filter(date_arrival_db, date_departure_db, self.request) == True):
+            raise BadDateExeption
+        serializer = DateSelectionModelSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(apartment=apartment, number_days=numbers_days, cost=cost, user_email=email)
+        return Response(serializer.data, status.HTTP_201_CREATED)

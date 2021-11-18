@@ -9,6 +9,7 @@ class ErrorEnum(Enum):
     VLE2 = 'Superuser must have is_staff=True'
     VLE3 = 'Superuser must have is_superuser=True'
     REQUEST = 'Not Found'
+    BadDate = 'Sorry, but these days the apartment is busy'
 
     def __init__(self, msg, code=status.HTTP_400_BAD_REQUEST):
         self.msg = msg

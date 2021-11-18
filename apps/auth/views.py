@@ -1,5 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
+from django.utils.decorators import method_decorator
+from drf_yasg.utils import swagger_auto_schema
+
 from bookingApps.utils.jwt_utils import JwtUtils
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
@@ -11,12 +14,22 @@ from .serializers import EmailSerializer
 from bookingApps.utils.email_utils import EmailUtils
 from .serializers import PasswordSerializer
 from enums.action_token import ActionTokenEnum
+from apps.users.models import UserModel as User
+from apps.users.serializers import UserModelSerializer
 
 UserModel = get_user_model()
 
 
+@method_decorator(name='get',
+                  decorator=swagger_auto_schema(operation_id='Activate user', operation_summary='Activate user'))
 class ActivateView(GenericAPIView):
+    """
+    get:
+        activate user
+    """
     permission_classes = (AllowAny,)
+    queryset = User.objects.all()
+    serializer_class = UserModelSerializer
 
     def get(self, *args, **kwargs):
         token = kwargs.get('token')
@@ -26,7 +39,20 @@ class ActivateView(GenericAPIView):
         return Response(status=status.HTTP_200_OK)
 
 
-class RecoverPasswordView(GenericAPIView):
+@method_decorator(name='post',
+                  decorator=swagger_auto_schema(operation_id='Sending a request to change the password',
+                                                operation_summary='Update password'))
+@method_decorator(name='patch',
+                  decorator=swagger_auto_schema(operation_id='Enter a token and a new password',
+                                                operation_summary='New password'))
+class RecoveryPasswordView(GenericAPIView):
+    """
+    post:
+        sending a request to change the password
+    patch:
+        enter a token and a new password
+    """
+    serializer_class = UserModelSerializer
     permission_classes = (AllowAny,)
 
     def post(self, *args, **kwargs):
