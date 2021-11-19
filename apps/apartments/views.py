@@ -117,7 +117,7 @@ class DateSelectionCreateView(CreateAPIView):
             raise REQUESTException
         apartment = ApartmentModel.objects.get(pk=pk)
         if DateSelectionModel.objects.filter(
-                DateSelectionUtils.date_filter(date_arrival_db, date_departure_db, self.request) == True):
+                DateSelectionUtils.date_filter(date_arrival_db, date_departure_db, self.request) == 'True'):
             raise BadDateExeption
         serializer = DateSelectionModelSerializer(data=data)
         serializer.is_valid(raise_exception=True)
