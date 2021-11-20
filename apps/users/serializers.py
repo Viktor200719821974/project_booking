@@ -7,7 +7,6 @@ from bookingApps.utils.jwt_utils import JwtUtils
 from enums.action_token import ActionTokenEnum
 from .models import UserModel as User
 from apps.apartments.serializers import ApartmentModelSerializer
-from apps.apartments.models import ApartmentModel
 from apps.profile.serializers import ProfileSerializer
 from apps.profile.models import ProfileModel
 from apps.comments_user.serializers import CommentsUserModelSerializer

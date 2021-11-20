@@ -10,7 +10,7 @@ def custom_exception_handler(exc, content) -> Response:
         'Vle2Exception': _vle2__error,
         'Vle3Exception': _vle3_error,
         'REQUESTException': _request_error,
-        'BadDayException': _bad_day_error,
+        'BadDateException': _bad_day_error,
 
     }
     response = exception_handler(exc, content)
@@ -51,7 +51,8 @@ def _request_error(exc, content) -> Response:
     print(content)
     return Response(ErrorEnum.REQUEST.msg, ErrorEnum.REQUEST.code)
 
+
 def _bad_day_error(exc, content) -> Response:
     print(exc.__class__)
     print(content)
-    return Response(ErrorEnum.REQUEST.msg, ErrorEnum.REQUEST.code)
+    return Response(ErrorEnum.BADDATE.msg, ErrorEnum.BADDATE.code)

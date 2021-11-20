@@ -10,27 +10,45 @@ class DateSelectionUtils:
         date_departure = request.data['date_departure']
         date_arrival = datetime.date(*[int(i) for i in date_arrival.split("-")])
         date_departure = datetime.date(*[int(i) for i in date_departure.split("-")])
-        print(type(date_departure))
         list_arrival = []
-        for date in date_arrival_db:
-            list_arrival.append(date['date_arrival'])
+        for i in date_arrival_db:
+            list_arrival.append(i['date_arrival'])
         list_departure = []
         for i in date_departure_db:
             list_departure.append(i['date_departure'])
+        date_now = datetime.date.today()
 
-        # def a(x):
-        #     return x >= date_arrival, list_arrival, print(x)
-        #
-        # def b(x):
-        #     return x >= date_departure, list_departure, print(x)
-        #
-        # def start():
-        #     if a and b:
-        #         return True
-        #     else:
-        #         return False
-        #
-        # start()
+        def now():
+            if date_arrival >= date_now and date_departure > date_now:
+                return True, print('true_now')
+            else:
+                return False, print('false_now')
+
+        def arrival():
+            # return date_departure <= x > date_arrival, list_arrival
+            for i in range(len(list_arrival)):
+                print(list_arrival[i])
+                if date_arrival > list_arrival[i] <= date_departure:
+                    return True, print('true_arrival')
+                else:
+                    return False, print('false_arrival')
+
+        def departure():
+            # return date_arrival >= x < date_departure, list_departure
+            for i in list_departure:
+                print(i)
+                if date_arrival >= i < date_departure:
+                    return True, print('true_departure')
+                else:
+                    return False, print('false_departure')
+
+        def start():
+            if now() and arrival() and departure():
+                return False
+            else:
+                return True
+
+        return start()
 
     @classmethod
     def date_selection(cls, request: Request):

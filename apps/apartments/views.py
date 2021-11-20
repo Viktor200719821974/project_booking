@@ -1,5 +1,3 @@
-# from django.utils.decorators import method_decorator
-# from drf_yasg.utils import swagger_auto_schema
 from django.utils.decorators import method_decorator
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
@@ -11,7 +9,7 @@ from bookingApps.utils.date_selection_utils import DateSelectionUtils
 from .models import ApartmentModel, PhotoRoomsModel
 from .serializers import ApartmentModelSerializer, PhotoRoomsSerializer
 from .filters import ApartmentFilter
-from exeptions.jwt_exeption import REQUESTException, BadDateExeption
+from exeptions.jwt_exeption import REQUESTException, BadDateException
 
 from ..date_selection.models import DateSelectionModel
 from ..date_selection.selializers import DateSelectionModelSerializer
@@ -103,6 +101,9 @@ class DateSelectionCreateView(CreateAPIView):
     queryset = DateSelectionModel.objects.all()
     serializer_class = DateSelectionModelSerializer
 
+    def get_serializer_context(self):
+        return {'request': self.request}
+
     def post(self, *args, **kwargs):
         pk = kwargs.get('pk')
         email = self.request.user
@@ -112,14 +113,16 @@ class DateSelectionCreateView(CreateAPIView):
         price = ApartmentModel.objects.filter(pk=pk).values('price')[0].get('price')
         numbers_days = DateSelectionUtils.date_selection(self.request)
         cost = numbers_days * price
+        free_seats = DateSelectionUtils.date_filter(date_arrival_db, date_departure_db, self.request)
+        print(free_seats)
         exists = ApartmentModel.objects.filter(pk=pk).exists()
         if not exists:
             raise REQUESTException
         apartment = ApartmentModel.objects.get(pk=pk)
-        if DateSelectionModel.objects.filter(
-                DateSelectionUtils.date_filter(date_arrival_db, date_departure_db, self.request) == 'True'):
-            raise BadDateExeption
+        if free_seats == True:
+            raise BadDateException
         serializer = DateSelectionModelSerializer(data=data)
         serializer.is_valid(raise_exception=True)
-        serializer.save(apartment=apartment, number_days=numbers_days, cost=cost, user_email=email)
+        serializer.save(apartment=apartment, number_days=numbers_days, cost=cost, user_email=email,
+                        free_seats=free_seats)
         return Response(serializer.data, status.HTTP_201_CREATED)

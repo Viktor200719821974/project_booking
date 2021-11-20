@@ -1,3 +1,4 @@
+import datetime
 import os
 
 from django.core.mail import EmailMultiAlternatives
@@ -27,3 +28,17 @@ class EmailUtils:
     def recovery_password_email(cls, address: str, token: Token, request: Request) -> None:
         uri = request.build_absolute_uri(reverse('auth_recovery_password'))
         cls._send_mail(address, TemplateEnum.RECOVERY_PASSWORD.value, {'token': token, "url": uri}, 'Recovery password')
+
+    @classmethod
+    def lease_confirmation_tenant(cls, address: str, name: str, date_arrival: any, date_departure: any,
+                                  cost: float, number_days: any) -> None:
+        cls._send_mail(address, TemplateEnum.TENANT.value, {'name': name, 'date_arrival': date_arrival,
+                                                            'date_departure': date_departure,
+                                                            'number_days': number_days, 'cost': cost}, 'Tenant')
+
+    @classmethod
+    def lease_confirmation_homeowner(cls, address: str, name: str, date_arrival: any, date_departure: any,
+                                     cost: float, number_days: any) -> None:
+        cls._send_mail(address, TemplateEnum.HOMEOWNER.value, {'name': name, 'date_arrival': date_arrival,
+                                                               'date_departure': date_departure,
+                                                               'number_days': number_days, 'cost': cost}, 'Homeowner')

@@ -17,5 +17,6 @@ class Vle3Exception(Exception):
 class REQUESTException(Exception):
     pass
 
-class BadDateExeption(Exception):
+
+class BadDateException(Exception):
     pass
