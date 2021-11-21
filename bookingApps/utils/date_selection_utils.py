@@ -20,30 +20,30 @@ class DateSelectionUtils:
 
         def now():
             if date_arrival >= date_now and date_departure > date_now:
-                return True, print('true_now')
+                return True
             else:
-                return False, print('false_now')
+                return False
 
         def arrival():
-            # return date_departure <= x > date_arrival, list_arrival
-            for i in range(len(list_arrival)):
-                print(list_arrival[i])
-                if date_arrival > list_arrival[i] <= date_departure:
-                    return True, print('true_arrival')
-                else:
-                    return False, print('false_arrival')
+            for i in list_arrival:
+                for j in list_departure:
+                    if i >= date_arrival < j:
+                        return False
+                    else:
+                        continue
+            return True
 
         def departure():
-            # return date_arrival >= x < date_departure, list_departure
-            for i in list_departure:
-                print(i)
-                if date_arrival >= i < date_departure:
-                    return True, print('true_departure')
-                else:
-                    return False, print('false_departure')
+            for i in list_arrival:
+                for j in list_departure:
+                    if i > date_departure < j:
+                        return False
+                    else:
+                        continue
+            return True
 
         def start():
-            if now() and arrival() and departure():
+            if now() == arrival() == departure():
                 return False
             else:
                 return True

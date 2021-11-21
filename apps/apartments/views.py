@@ -113,12 +113,11 @@ class DateSelectionCreateView(CreateAPIView):
         price = ApartmentModel.objects.filter(pk=pk).values('price')[0].get('price')
         numbers_days = DateSelectionUtils.date_selection(self.request)
         cost = numbers_days * price
-        free_seats = DateSelectionUtils.date_filter(date_arrival_db, date_departure_db, self.request)
-        print(free_seats)
         exists = ApartmentModel.objects.filter(pk=pk).exists()
         if not exists:
             raise REQUESTException
         apartment = ApartmentModel.objects.get(pk=pk)
+        free_seats = DateSelectionUtils.date_filter(date_arrival_db, date_departure_db, self.request)
         if free_seats == True:
             raise BadDateException
         serializer = DateSelectionModelSerializer(data=data)

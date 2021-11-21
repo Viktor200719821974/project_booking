@@ -9,6 +9,7 @@ from apps.users.models import UserModel
 from apps.profile.models import ProfileModel
 from apps.apartments.models import ApartmentModel
 
+
 class DateSelectionModelSerializer(ModelSerializer):
     class Meta:
         model = DateSelectionModel
@@ -19,7 +20,8 @@ class DateSelectionModelSerializer(ModelSerializer):
         date_departure = validated_data.get('date_departure')
         email = validated_data.get('user_email')
         cost = validated_data.get('cost')
-
+        apartment  = validated_data
+        print(apartment)
         # apartment = ApartmentModel.objects.filter(id=apartment_id).values('user_apartment_id')
 
         number_days = date_departure - date_arrival
@@ -30,5 +32,3 @@ class DateSelectionModelSerializer(ModelSerializer):
         # EmailUtils.lease_confirmation_homeowner(email, name=name, date_arrival=date_arrival, date_departure=date_departure,
         #                                      cost=cost, number_days=number_days)
         return super().create(validated_data)
-
-
