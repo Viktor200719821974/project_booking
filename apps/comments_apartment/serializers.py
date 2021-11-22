@@ -14,6 +14,6 @@ class CommentsApartmentModelSerializer(ModelSerializer):
 
     class Meta:
         model = CommentsApartmentModel
-        exclude = ('apartment',)
+        exclude = ('apartment', 'average_rating',)
 
 

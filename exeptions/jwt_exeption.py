@@ -20,3 +20,11 @@ class REQUESTException(Exception):
 
 class BadDateException(Exception):
     pass
+
+
+class AuthenticatedCommentApartment(Exception):
+    pass
+
+
+class AuthenticatedCommentUser(Exception):
+    pass

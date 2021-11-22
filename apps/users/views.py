@@ -8,8 +8,12 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
 
+from bookingApps.utils.rating_utils import AverageRating
+from exeptions.jwt_exeption import REQUESTException
 from .serializers import UserModelSerializer
-from .permissions import IsSuperUser, IsManagerUser
+from .permissions import IsSuperUser, IsManagerUser, CommentOfUserRentedApartment
+from ..comments_user.models import CommentsUserModel
+from ..comments_user.serializers import CommentsUserModelSerializer
 
 UserModel: User = get_user_model()
 
@@ -127,3 +131,32 @@ class UserToManagerView(GenericAPIView):
         user.save()
         data = UserModelSerializer(user).data
         return Response(data, status.HTTP_200_OK)
+
+
+@method_decorator(name='post',
+                  decorator=swagger_auto_schema(operation_id='Create comments for user',
+                                                operation_summary='Create comments for user'))
+class CommentUserAddView(CreateAPIView):
+    """
+     post:
+        Create comments user
+    """
+    queryset = CommentsUserModel.objects.all()
+    serializer_class = CommentsUserModelSerializer
+    permission_classes = (CommentOfUserRentedApartment,)
+
+    def post(self, request, *args, **kwargs):
+        global average_rating
+        pk = kwargs.get('pk')
+        data = self.request.data
+        exists = UserModel.objects.filter(pk=pk).exists()
+        if not exists:
+            raise REQUESTException
+        user = UserModel.objects.get(pk=pk)
+        exists = CommentsUserModel.objects.filter(user_id=pk).exists()
+        if exists:
+            average_rating = AverageRating.average_rating_user(pk)
+        serializer = CommentsUserModelSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(user=user, average_rating=average_rating)
+        return Response(serializer.data, status.HTTP_201_CREATED)

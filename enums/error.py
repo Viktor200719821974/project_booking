@@ -10,6 +10,8 @@ class ErrorEnum(Enum):
     VLE3 = 'Superuser must have is_superuser=True'
     REQUEST = 'Not Found'
     BADDATE = 'Sorry, but these days the apartment is busy'
+    AUTHCOMAPARTMENT = ('Comments can leave only those who rented this housing', status.HTTP_403_FORBIDDEN)
+    AUTHCOMUSER = ('Comments can leave only those who rented this housing', status.HTTP_403_FORBIDDEN)
 
     def __init__(self, msg, code=status.HTTP_400_BAD_REQUEST):
         self.msg = msg

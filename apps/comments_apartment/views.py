@@ -1,44 +1,27 @@
 from django.utils.decorators import method_decorator
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
-from rest_framework.generics import GenericAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import GenericAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
+from rest_framework.permissions import AllowAny, IsAdminUser
 
 from .models import CommentsApartmentModel
 from .serializers import CommentsApartmentModelSerializer, PhotoCommentApartmentSerializer
-from apps.apartments.models import ApartmentModel, PhotoRoomsModel
-from exeptions.jwt_exeption import REQUESTException
+from apps.apartments.models import PhotoRoomsModel
 
 
 @method_decorator(name='get',
-                  decorator=swagger_auto_schema(operation_id='List comments for apartment',
-                                                operation_summary='Get all'))
-@method_decorator(name='post',
-                  decorator=swagger_auto_schema(operation_id='Create comments for apartment',
-                                                operation_summary='Create comments for apartment'))
-class CommentsApartmentListCreateView(ListCreateAPIView):
+                  decorator=swagger_auto_schema(operation_id='List comments for user', operation_summary='Get all'))
+class CommentsApartmentListView(ListAPIView):
     """
      get:
-         Get all comments apartment
-     post:
-         Create comments apartment
+         Get all comments user
     """
     queryset = CommentsApartmentModel.objects.all()
     serializer_class = CommentsApartmentModelSerializer
 
     def get_permissions(self):
-        if self.request.method == 'POST':
-            return IsAuthenticated(),
-        return AllowAny(),
-
-    def perform_create(self, serializer):
-        pk = self.request.query_params.get('apartmentId')
-        exists = ApartmentModel.objects.filter(pk=pk).exists()
-        if not exists:
-            raise REQUESTException
-        apartment = ApartmentModel.objects.get(pk=pk)
-        serializer.save(apartment=apartment)
+        return IsAdminUser(),
 
 
 @method_decorator(name='get',
@@ -68,6 +51,8 @@ class CommentsApartmentRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     serializer_class = CommentsApartmentModelSerializer
 
     def get_permissions(self):
+        if self.request.method == 'GET':
+            return AllowAny(),
         return IsAdminUser(),
 
 

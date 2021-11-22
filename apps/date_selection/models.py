@@ -16,4 +16,5 @@ class DateSelectionModel(models.Model):
     cost = models.FloatField()
     free_seats = models.BooleanField(default=True)
     user_email = models.EmailField()
+    number_peoples = models.IntegerField()
     apartment = models.ForeignKey(ApartmentModel, on_delete=models.CASCADE, related_name='date_selection')

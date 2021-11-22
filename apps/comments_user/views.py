@@ -1,43 +1,26 @@
 from django.utils.decorators import method_decorator
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
-from rest_framework.generics import (GenericAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView)
+from rest_framework.generics import (GenericAPIView, ListAPIView, RetrieveUpdateDestroyAPIView)
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 from .models import CommentsUserModel, PhotoModel
 from .serializers import CommentsUserModelSerializer, PhotoCommentUserSerializer
-from apps.users.models import UserModel
-from exeptions.jwt_exeption import REQUESTException
 
 
 @method_decorator(name='get',
                   decorator=swagger_auto_schema(operation_id='List comments for user', operation_summary='Get all'))
-@method_decorator(name='post',
-                  decorator=swagger_auto_schema(operation_id='Create comments for user',
-                                                operation_summary='Create comments for user'))
-class CommentsUserListCreateView(ListCreateAPIView):
+class CommentsUserListView(ListAPIView):
     """
      get:
          Get all comments user
-     post:
-         Create comments user
     """
     queryset = CommentsUserModel.objects.all()
     serializer_class = CommentsUserModelSerializer
 
     def get_permissions(self):
-        if self.request.method == 'POST':
-            return IsAuthenticated(),
-        return AllowAny(),
-
-    def perform_create(self, serializer):
-        pk = self.request.query_params.get('userId')
-        exists = UserModel.objects.filter(pk=pk).exists()
-        if not exists:
-            raise REQUESTException
-        user = UserModel.objects.get(pk=pk)
-        serializer.save(user=user)
+        return IsAdminUser(),
 
 
 @method_decorator(name='get',
@@ -67,6 +50,8 @@ class CommentsUserRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     serializer_class = CommentsUserModelSerializer
 
     def get_permissions(self):
+        if self.request.method == 'GET':
+            return IsAuthenticated(),
         return IsAdminUser(),
 
 

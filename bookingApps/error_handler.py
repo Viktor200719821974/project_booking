@@ -11,7 +11,8 @@ def custom_exception_handler(exc, content) -> Response:
         'Vle3Exception': _vle3_error,
         'REQUESTException': _request_error,
         'BadDateException': _bad_day_error,
-
+        'AuthenticatedCommentApartment': _aunticated_comment_apartment_error,
+        'AuthenticatedCommentUser': _aunticated_comment_user_error,
     }
     response = exception_handler(exc, content)
     exc_class = exc.__class__.__name__
@@ -56,3 +57,14 @@ def _bad_day_error(exc, content) -> Response:
     print(exc.__class__)
     print(content)
     return Response(ErrorEnum.BADDATE.msg, ErrorEnum.BADDATE.code)
+
+
+def _aunticated_comment_apartment_error(exc, content) -> Response:
+    print(exc.__class__)
+    print(content)
+    return Response(ErrorEnum.AUTHCOMAPARTMENT.msg, ErrorEnum. AUTHCOMAPARTMENT.code)
+
+def _aunticated_comment_user_error(exc, content) -> Response:
+    print(exc.__class__)
+    print(content)
+    return Response(ErrorEnum.AUTHCOMUSER.msg, ErrorEnum. AUTHCOMUSER.code)

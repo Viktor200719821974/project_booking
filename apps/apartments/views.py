@@ -10,9 +10,12 @@ from .models import ApartmentModel, PhotoRoomsModel
 from .serializers import ApartmentModelSerializer, PhotoRoomsSerializer
 from .filters import ApartmentFilter
 from exeptions.jwt_exeption import REQUESTException, BadDateException
-
+from ..comments_apartment.models import CommentsApartmentModel
+from ..comments_apartment.serializers import CommentsApartmentModelSerializer
 from ..date_selection.models import DateSelectionModel
 from ..date_selection.selializers import DateSelectionModelSerializer
+from ..users.permissions import CommentRentedApartment
+from bookingApps.utils.rating_utils import AverageRating
 
 
 @method_decorator(name='get',
@@ -108,20 +111,47 @@ class DateSelectionCreateView(CreateAPIView):
         pk = kwargs.get('pk')
         email = self.request.user
         data = self.request.data
-        date_arrival_db = DateSelectionModel.objects.filter(apartment_id=pk).values('date_arrival')
-        date_departure_db = DateSelectionModel.objects.filter(apartment_id=pk).values('date_departure')
         price = ApartmentModel.objects.filter(pk=pk).values('price')[0].get('price')
         numbers_days = DateSelectionUtils.date_selection(self.request)
         cost = numbers_days * price
         exists = ApartmentModel.objects.filter(pk=pk).exists()
         if not exists:
             raise REQUESTException
+        else:
+            free_seats = DateSelectionUtils.date_filter(pk, self.request)
+            if not free_seats:
+                raise BadDateException
         apartment = ApartmentModel.objects.get(pk=pk)
-        free_seats = DateSelectionUtils.date_filter(date_arrival_db, date_departure_db, self.request)
-        if free_seats == True:
-            raise BadDateException
         serializer = DateSelectionModelSerializer(data=data)
         serializer.is_valid(raise_exception=True)
-        serializer.save(apartment=apartment, number_days=numbers_days, cost=cost, user_email=email,
-                        free_seats=free_seats)
+        serializer.save(apartment=apartment, number_days=numbers_days, cost=cost, user_email=email)
+        return Response(serializer.data, status.HTTP_201_CREATED)
+# free_seats=free_seats
+
+@method_decorator(name='post',
+                  decorator=swagger_auto_schema(operation_id='Create comments for apartment',
+                                                operation_summary='Create comments for apartment'))
+class CommentApartmentAddView(CreateAPIView):
+    """
+     post:
+        Create comments apartment
+    """
+    queryset = CommentsApartmentModel.objects.all()
+    serializer_class = CommentsApartmentModelSerializer
+    permission_classes = (CommentRentedApartment,)
+
+    def post(self, request, *args, **kwargs):
+        global average_rating
+        pk = kwargs.get('pk')
+        data = self.request.data
+        exists = CommentsApartmentModel.objects.filter(apartment_id=pk).exists()
+        if exists:
+            average_rating = AverageRating.average_rating_apartment(pk)
+        exists = ApartmentModel.objects.filter(pk=pk).exists()
+        if not exists:
+            raise REQUESTException
+        apartment = ApartmentModel.objects.get(pk=pk)
+        serializer = CommentsApartmentModelSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(apartment=apartment, average_rating= average_rating)
         return Response(serializer.data, status.HTTP_201_CREATED)

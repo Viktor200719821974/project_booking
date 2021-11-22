@@ -30,15 +30,17 @@ class EmailUtils:
         cls._send_mail(address, TemplateEnum.RECOVERY_PASSWORD.value, {'token': token, "url": uri}, 'Recovery password')
 
     @classmethod
-    def lease_confirmation_tenant(cls, address: str, name: str, date_arrival: any, date_departure: any,
-                                  cost: float, number_days: any) -> None:
+    def lease_confirmation_tenant(cls, address: str, name: str, date_arrival: datetime, date_departure: datetime,
+                                  cost: float, number_days: datetime, number_peoples: int) -> None:
         cls._send_mail(address, TemplateEnum.TENANT.value, {'name': name, 'date_arrival': date_arrival,
                                                             'date_departure': date_departure,
-                                                            'number_days': number_days, 'cost': cost}, 'Tenant')
+                                                            'number_days': number_days, 'cost': cost,
+                                                            'number_peoples': number_peoples}, 'Tenant')
 
     @classmethod
-    def lease_confirmation_homeowner(cls, address: str, name: str, date_arrival: any, date_departure: any,
-                                     cost: float, number_days: any) -> None:
+    def lease_confirmation_homeowner(cls, address: str, name: str, date_arrival: datetime, date_departure: datetime,
+                                     cost: float, number_days: datetime, number_peoples: int) -> None:
         cls._send_mail(address, TemplateEnum.HOMEOWNER.value, {'name': name, 'date_arrival': date_arrival,
                                                                'date_departure': date_departure,
-                                                               'number_days': number_days, 'cost': cost}, 'Homeowner')
+                                                               'number_days': number_days, 'cost': cost,
+                                                               'number_peoples': number_peoples}, 'Homeowner')

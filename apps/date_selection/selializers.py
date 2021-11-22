@@ -1,6 +1,3 @@
-import os
-from typing import Iterable
-
 from rest_framework.serializers import ModelSerializer
 
 from bookingApps.utils.email_utils import EmailUtils
@@ -20,15 +17,17 @@ class DateSelectionModelSerializer(ModelSerializer):
         date_departure = validated_data.get('date_departure')
         email = validated_data.get('user_email')
         cost = validated_data.get('cost')
-        apartment  = validated_data
-        print(apartment)
-        # apartment = ApartmentModel.objects.filter(id=apartment_id).values('user_apartment_id')
-
+        number_peoples = validated_data.get('number_peoples')
+        pk = validated_data.get('apartment').id
+        user_apartment_id = ApartmentModel.objects.filter(pk=pk).values('user_apartment')[0].get('user_apartment')
+        email_apartment = UserModel.objects.filter(pk=user_apartment_id).values('email')[0].get('email')
+        name_apartment = ProfileModel.objects.filter(user_id=user_apartment_id).values('name')[0].get('name')
         number_days = date_departure - date_arrival
         user_id = UserModel.objects.filter(email=email).values('id')[0].get('id')
         name = ProfileModel.objects.filter(user_id=user_id).values('name')[0].get('name')
         # EmailUtils.lease_confirmation_tenant(email, name=name, date_arrival=date_arrival, date_departure=date_departure,
-        #                                      cost=cost, number_days=number_days)
-        # EmailUtils.lease_confirmation_homeowner(email, name=name, date_arrival=date_arrival, date_departure=date_departure,
-        #                                      cost=cost, number_days=number_days)
+        #                                      cost=cost, number_days=number_days, number_peoples=number_peoples)
+        # EmailUtils.lease_confirmation_homeowner(email_apartment, name=name_apartment, date_arrival=date_arrival,
+        #                                         date_departure=date_departure, cost=cost, number_days=number_days,
+        #                                         number_peoples=number_peoples)
         return super().create(validated_data)
