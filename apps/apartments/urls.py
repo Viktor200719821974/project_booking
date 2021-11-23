@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import  ApartmentListCreateView, ApartmentRetrieveUpdateDestroyView, PhotoRoomsView, \
+from .views import ApartmentListCreateView, ApartmentRetrieveUpdateDestroyView, PhotoRoomsView, \
     DateSelectionCreateView, CommentApartmentAddView
 
 urlpatterns = [

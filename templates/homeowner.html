@@ -10,4 +10,13 @@
 <h3>Rental price: {{ cost }} грн</h3>
 <h3>Number of peoples: {{ number_peoples }} </h3>
 
+    <h3>Data user:</h3>
+    <h4>Name: {{ name_user }}</h4>
+    <h4>Surname: {{ surname_user }}</h4>
+    <h4>Age: {{ age_user }}</h4>
+    <h4>Phone: {{ phone_user }}</h4>
+    <h4>Rating: {{ average_rating }}</h4>
+
+    <h2>To confirm the lease, click on the link</h2>         <h2>To cancel the lease, click on the link</h2>
+    <h3><a href="{{ url_yes }}">YES</a></h3>                              <h3><a href="{{ url_no }}">NO</a></h3>
 {% endblock %}

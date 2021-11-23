@@ -28,71 +28,27 @@ class DateSelectionUtils:
             else:
                 return False, print('false_now')
 
-        def arrival1():
+        def date():
             for i in list_arrival:
                 print(i)
                 for j in list_departure:
                     print(j)
-                    if i >= date_arrival < j and i > date_departure <= j:
-                        return False, print('False_arrival1')
+                    if i <= date_arrival < j and i < date_departure < j:
+                        print('date_arrival:',type(date_arrival), 'date_departure:', type(date_departure))
+                        return False, print('false_arrival1')
                     else:
                         continue
             return True, print('true_arrival1')
 
-        # def arrival2():
-        #     for i in list_arrival:
-        #         print(i)
-        #         for j in list_departure:
-        #             print(j)
-        #             if i < date_arrival >= j and i < date_departure > j:
-        #                 return True, print('true_arrival2')
-        #             else:
-        #                 continue
-        #     return False, print('false_arrival2')
 
-        def arrival():
-            if now() and arrival1():
+        def start():
+            if now() == date():
                 return True, print('true_arrival')
             else:
                 return False, print('false_arrival')
 
-        return arrival()
+        return start()
 
-        # def departure1():
-        #     for i in list_arrival:
-        #         print(i)
-        #         for j in list_departure:
-        #             print(j)
-        #             if i > date_departure > j:
-        #                 return False, print('false_departure1')
-        #             else:
-        #                 continue
-        #     return True, print('true_departure1')
-        #
-        # def departure2():
-        #     for i in list_arrival:
-        #         print(i)
-        #         for j in list_departure:
-        #             print(j)
-        #             if i > date_departure < j:
-        #                 return False, print('false_departure2')
-        #             else:
-        #                 continue
-        #     return True, print('true_departure2')
-        #
-        # def departure():
-        #     if departure1() == departure2():
-        #         return True, print('true_departure')
-        #     else:
-        #         return False, print('false_departure')
-        #
-        # def start():
-        #     if now() == arrival() == departure():
-        #         return False
-        #     else:
-        #         return True
-        #
-        # return start()
 
     @classmethod
     def date_selection(cls, request: Request):

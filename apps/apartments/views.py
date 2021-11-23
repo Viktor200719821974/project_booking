@@ -119,6 +119,7 @@ class DateSelectionCreateView(CreateAPIView):
             raise REQUESTException
         else:
             free_seats = DateSelectionUtils.date_filter(pk, self.request)
+            print(free_seats)
             if not free_seats:
                 raise BadDateException
         apartment = ApartmentModel.objects.get(pk=pk)
@@ -126,7 +127,7 @@ class DateSelectionCreateView(CreateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save(apartment=apartment, number_days=numbers_days, cost=cost, user_email=email)
         return Response(serializer.data, status.HTTP_201_CREATED)
-# free_seats=free_seats
+
 
 @method_decorator(name='post',
                   decorator=swagger_auto_schema(operation_id='Create comments for apartment',
@@ -153,5 +154,5 @@ class CommentApartmentAddView(CreateAPIView):
         apartment = ApartmentModel.objects.get(pk=pk)
         serializer = CommentsApartmentModelSerializer(data=data)
         serializer.is_valid(raise_exception=True)
-        serializer.save(apartment=apartment, average_rating= average_rating)
+        serializer.save(apartment=apartment, average_rating=average_rating)
         return Response(serializer.data, status.HTTP_201_CREATED)

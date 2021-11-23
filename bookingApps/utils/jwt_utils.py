@@ -5,7 +5,9 @@ from rest_framework_simplejwt.tokens import Token, BlacklistMixin
 from rest_framework_simplejwt.token_blacklist.models import OutstandingToken
 from django.contrib.auth import get_user_model
 
+from apps.apartments.models import ApartmentModel
 from exeptions.jwt_exeption import JwtException
+from bookingApps.utils.token_utils import OutstandingApartmentToken
 
 UserModel = get_user_model()
 
@@ -33,5 +35,20 @@ class JwtUtils:
             action_token.blacklist()
             user_id = action_token.payload.get('user_id')
             return UserModel.objects.get(pk=user_id)
+        except Exception:
+            raise JwtException
+
+    def create_apartment_token(self, apartment):
+        return self._TokenClass.for_user(apartment)
+
+    def validate_apartment_token(self, token):
+        try:
+            action_token = self._TokenClass(token)
+            if not OutstandingApartmentToken.objects.filter(token=token).exists():
+                raise JwtException
+            action_token.check_blacklist()
+            action_token.blacklist()
+            apartment_id = action_token.payload.get('apartment_id')
+            return ApartmentModel.objects.get(pk=apartment_id)
         except Exception:
             raise JwtException
