@@ -28,7 +28,6 @@ DEBUG = True if os.environ.get('DEBUG') == 'True' else False
 ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'users.UserModel'
-APARTMENT_MODEL = 'apartments.ApartmentModel'
 # Application definition
 
 INSTALLED_APPS = [

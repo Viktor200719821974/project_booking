@@ -11,18 +11,20 @@ from .selializers import DateSelectionModelSerializer
 from .models import DateSelectionModel
 
 
+
 class YesRentView(GenericAPIView):
 
     permission_classes = (AllowAny,)
     queryset = DateSelectionModel.objects.all()
     serializer_class = DateSelectionModelSerializer
 
-    # def get(self, *args, **kwargs):
-    #     token = kwargs.get('token')
-    #     user = JwtUtils(ActionTokenEnum.YES.token_type).validate_token(token)
-    #     user.is_active = True
-    #     user.save()
-    #     return Response(status=status.HTTP_200_OK)
+    def get(self, *args, **kwargs):
+        token = kwargs.get('token')
+        print(token)
+        user = JwtUtils(ActionTokenEnum.YES.token_type).validate_token(token)
+        # user.is_active = True
+        # user.save()
+        return Response(status=status.HTTP_200_OK)
 
 
 @method_decorator(name='delete',

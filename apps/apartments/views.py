@@ -12,6 +12,7 @@ from .filters import ApartmentFilter
 from exeptions.jwt_exeption import REQUESTException, BadDateException
 from ..comments_apartment.models import CommentsApartmentModel
 from ..comments_apartment.serializers import CommentsApartmentModelSerializer
+# from ..date_selection.filters import DateFilter
 from ..date_selection.models import DateSelectionModel
 from ..date_selection.selializers import DateSelectionModelSerializer
 from ..users.permissions import CommentRentedApartment
@@ -96,13 +97,14 @@ class PhotoRoomsView(GenericAPIView):
 @method_decorator(name='post',
                   decorator=swagger_auto_schema(operation_id='Selected date arrival and departure',
                                                 operation_summary='Selected date'))
-class DateSelectionCreateView(CreateAPIView):
+class DateSelectionCreateView(GenericAPIView):
     """
     post:
         selected date arrival and departure
     """
     queryset = DateSelectionModel.objects.all()
     serializer_class = DateSelectionModelSerializer
+    # filterset_class = DateFilter
 
     def get_serializer_context(self):
         return {'request': self.request}
@@ -123,9 +125,9 @@ class DateSelectionCreateView(CreateAPIView):
             if not free_seats:
                 raise BadDateException
         apartment = ApartmentModel.objects.get(pk=pk)
-        serializer = DateSelectionModelSerializer(data=data)
+        serializer = DateSelectionModelSerializer(data=data, context={'request': self.request})
         serializer.is_valid(raise_exception=True)
-        serializer.save(apartment=apartment, number_days=numbers_days, cost=cost, user_email=email)
+        serializer.save(apartment=apartment, number_days=numbers_days, cost=cost, user_email=email, free_seats=free_seats)
         return Response(serializer.data, status.HTTP_201_CREATED)
 
 

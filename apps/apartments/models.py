@@ -39,8 +39,4 @@ class PhotoRoomsModel(models.Model):
     apartment = models.ForeignKey(ApartmentModel, on_delete=models.CASCADE, related_name='photo_rooms')
 
 
-# class DateSelectionModel(models.Model):
-#     class Meta:
-#         db_table = 'date_selection'
-
 
