@@ -13,6 +13,7 @@ def custom_exception_handler(exc, content) -> Response:
         'BadDateException': _bad_day_error,
         'AuthenticatedCommentApartment': _aunticated_comment_apartment_error,
         'AuthenticatedCommentUser': _aunticated_comment_user_error,
+        'NoRentException': _no_rent_error,
     }
     response = exception_handler(exc, content)
     exc_class = exc.__class__.__name__
@@ -62,9 +63,16 @@ def _bad_day_error(exc, content) -> Response:
 def _aunticated_comment_apartment_error(exc, content) -> Response:
     print(exc.__class__)
     print(content)
-    return Response(ErrorEnum.AUTHCOMAPARTMENT.msg, ErrorEnum. AUTHCOMAPARTMENT.code)
+    return Response(ErrorEnum.AUTHCOMAPARTMENT.msg, ErrorEnum.AUTHCOMAPARTMENT.code)
+
 
 def _aunticated_comment_user_error(exc, content) -> Response:
     print(exc.__class__)
     print(content)
-    return Response(ErrorEnum.AUTHCOMUSER.msg, ErrorEnum. AUTHCOMUSER.code)
+    return Response(ErrorEnum.AUTHCOMUSER.msg, ErrorEnum.AUTHCOMUSER.code)
+
+
+def _no_rent_error(exc, content) -> Response:
+    print(exc.__class__)
+    print(content)
+    return Response(ErrorEnum.NORENT.msg, ErrorEnum.NORENT.code)

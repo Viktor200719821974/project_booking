@@ -12,6 +12,7 @@ class ErrorEnum(Enum):
     BADDATE = 'Sorry, but these days the apartment is busy'
     AUTHCOMAPARTMENT = ('Comments can leave only those who rented this housing', status.HTTP_403_FORBIDDEN)
     AUTHCOMUSER = ('Comments can leave only those who rented this housing', status.HTTP_403_FORBIDDEN)
+    NORENT = ('has not been confirmed, you can choose another apartment', status.HTTP_418_IM_A_TEAPOT)
 
     def __init__(self, msg, code=status.HTTP_400_BAD_REQUEST):
         self.msg = msg

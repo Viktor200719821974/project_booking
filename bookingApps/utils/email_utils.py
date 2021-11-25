@@ -38,12 +38,19 @@ class EmailUtils:
                                                             'number_peoples': number_peoples}, 'Tenant')
 
     @classmethod
+    def lease_confirmation_tenant_rent_no(cls, address: str, name: str, date_arrival: datetime,
+                                          date_departure: datetime,) -> None:
+        cls._send_mail(address, TemplateEnum.TENANT_NO_RENT.value, {'name': name, 'date_arrival': date_arrival,
+                                                                    'date_departure': date_departure}, 'Tenant No Rent')
+
+    @classmethod
     def lease_confirmation_homeowner(cls, address: str, name: str, date_arrival: datetime, date_departure: datetime,
                                      cost: float, number_days: datetime, number_peoples: int, name_user: str,
                                      surname_user: str, age_user: int, phone_user: str, average_rating: float,
                                      token_no: Token, token_yes: Token, request: Request) -> None:
         uri_yes = request.build_absolute_uri(reverse('date_selection_yes', args=(token_yes,)))
         uri_no = request.build_absolute_uri(reverse('date_selection_no', args=(token_no,)))
+
         cls._send_mail(address, TemplateEnum.HOMEOWNER.value, {'name': name, 'date_arrival': date_arrival,
                                                                'date_departure': date_departure,
                                                                'number_days': number_days, 'cost': cost,

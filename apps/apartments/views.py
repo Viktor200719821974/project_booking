@@ -12,7 +12,7 @@ from .filters import ApartmentFilter
 from exeptions.jwt_exeption import REQUESTException, BadDateException
 from ..comments_apartment.models import CommentsApartmentModel
 from ..comments_apartment.serializers import CommentsApartmentModelSerializer
-# from ..date_selection.filters import DateFilter
+from ..date_selection.filters import DateFilter
 from ..date_selection.models import DateSelectionModel
 from ..date_selection.selializers import DateSelectionModelSerializer
 from ..users.permissions import CommentRentedApartment
@@ -104,10 +104,7 @@ class DateSelectionCreateView(GenericAPIView):
     """
     queryset = DateSelectionModel.objects.all()
     serializer_class = DateSelectionModelSerializer
-    # filterset_class = DateFilter
-
-    def get_serializer_context(self):
-        return {'request': self.request}
+    filterset_class = DateFilter
 
     def post(self, *args, **kwargs):
         pk = kwargs.get('pk')
@@ -127,7 +124,8 @@ class DateSelectionCreateView(GenericAPIView):
         apartment = ApartmentModel.objects.get(pk=pk)
         serializer = DateSelectionModelSerializer(data=data, context={'request': self.request})
         serializer.is_valid(raise_exception=True)
-        serializer.save(apartment=apartment, number_days=numbers_days, cost=cost, user_email=email, free_seats=free_seats)
+        serializer.save(apartment=apartment, number_days=numbers_days, cost=cost, user_email=email,
+                        free_seats=free_seats)
         return Response(serializer.data, status.HTTP_201_CREATED)
 
 

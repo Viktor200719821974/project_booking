@@ -28,3 +28,7 @@ class AuthenticatedCommentApartment(Exception):
 
 class AuthenticatedCommentUser(Exception):
     pass
+
+
+class NoRentException(Exception):
+    pass
