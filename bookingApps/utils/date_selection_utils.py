@@ -29,36 +29,28 @@ class DateSelectionUtils:
                 return False
 
         def arrival():
-            for i in list_arrival:
-                print(i)
-                if date_arrival < i and date_departure <= i:
-                    return True
+            for i in range(len(list_arrival)):
+                if list_arrival[i - 1] >= date_arrival < list_arrival[i]:
+                    return False
                 else:
                     continue
-            return False
+            return True
 
-        def department():
-            for j in list_departure:
-                print(j)
-                if date_arrival >= j and date_departure > j:
-                    return True
+        def departure():
+            for j in range(len(list_departure)):
+                if list_departure[j - 1] > date_departure <= list_departure[j]:
+                    return False
                 else:
                     continue
-            return False
+            return True
 
         def date():
-            if arrival() != department():
+            if now() == arrival() == departure():
                 return True
             else:
                 return False
 
-        def start():
-            if now() == date():
-                return True
-            else:
-                return False
-
-        return start()
+        return date()
 
     @classmethod
     def date_selection(cls, request: Request):

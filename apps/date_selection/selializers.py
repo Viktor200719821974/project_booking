@@ -39,22 +39,26 @@ class DateSelectionModelSerializer(ModelSerializer):
         surname = ProfileModel.objects.filter(user_id=user_id).values('surname')[0].get('surname')
         age_user = ProfileModel.objects.filter(user_id=user_id).values('age')[0].get('age')
         phone_user = ProfileModel.objects.filter(user_id=user_id).values('phone')[0].get('phone')
-        average_rating = CommentsUserModel.objects.filter(user_id=user_id).values('average_rating')[0].get('average_rating')
-        # EmailUtils.lease_confirmation_homeowner(email_apartment, name=name_apartment, date_arrival=date_arrival,
-        #                                         date_departure=date_departure, cost=cost, number_days=number_days,
-        #                                         number_peoples=number_peoples, name_user=name, surname_user=surname,
-        #                                         age_user=age_user, phone_user=phone_user,
-        #                                         average_rating=average_rating, token_yes=token_yes, token_no=token_no,
-        #                                         request=request)
-        # time.sleep(100)
+        average_rating = CommentsUserModel.objects.filter(user_id=user_id).values('average_rating')[0].get(
+            'average_rating')
+        EmailUtils.lease_confirmation_homeowner(email_apartment, name=name_apartment, date_arrival=date_arrival,
+                                                date_departure=date_departure, cost=cost, number_days=number_days,
+                                                number_peoples=number_peoples, name_user=name, surname_user=surname,
+                                                age_user=age_user, phone_user=phone_user,
+                                                average_rating=average_rating, token_yes=token_yes, token_no=token_no,
+                                                request=request)
+
+        TypeToken.send_email_sleep(email, name=name, date_arrival=date_arrival,date_departure=date_departure,
+                                   cost=cost, number_days=number_days,number_peoples=number_peoples)
         # type = TypeToken.send_email_user()
+        # print(type, '_____________________________________________________')
         # if type == 'yes':
         #     EmailUtils.lease_confirmation_tenant(email, name=name, date_arrival=date_arrival,
-        #                                          date_departure=date_departure,cost=cost, number_days=number_days,
+        #                                          date_departure=date_departure, cost=cost, number_days=number_days,
         #                                          number_peoples=number_peoples)
         # else:
         #     EmailUtils.lease_confirmation_tenant_rent_no(email, name=name, date_arrival=date_arrival,
-        #                                          date_departure=date_departure)
+        #                                                  date_departure=date_departure)
         #     raise NoRentException
 
         return super().create(validated_data)

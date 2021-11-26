@@ -12,7 +12,6 @@ from .filters import ApartmentFilter
 from exeptions.jwt_exeption import REQUESTException, BadDateException
 from ..comments_apartment.models import CommentsApartmentModel
 from ..comments_apartment.serializers import CommentsApartmentModelSerializer
-from ..date_selection.filters import DateFilter
 from ..date_selection.models import DateSelectionModel
 from ..date_selection.selializers import DateSelectionModelSerializer
 from ..users.permissions import CommentRentedApartment
@@ -104,7 +103,6 @@ class DateSelectionCreateView(GenericAPIView):
     """
     queryset = DateSelectionModel.objects.all()
     serializer_class = DateSelectionModelSerializer
-    filterset_class = DateFilter
 
     def post(self, *args, **kwargs):
         pk = kwargs.get('pk')
@@ -118,7 +116,6 @@ class DateSelectionCreateView(GenericAPIView):
             raise REQUESTException
         else:
             free_seats = DateSelectionUtils.date_filter(pk, self.request)
-            print(free_seats)
             if not free_seats:
                 raise BadDateException
         apartment = ApartmentModel.objects.get(pk=pk)

@@ -7,6 +7,7 @@ from rest_framework.response import Response
 
 from bookingApps.utils.jwt_utils import JwtUtils
 from enums.action_token import ActionTokenEnum
+from .filters import DateFilter
 from .selializers import DateSelectionModelSerializer
 from .models import DateSelectionModel
 from bookingApps.utils.type_token_utils import TypeToken
@@ -46,6 +47,7 @@ class DateSelectionListView(ListAPIView):
     """
     queryset = DateSelectionModel.objects.all()
     serializer_class = DateSelectionModelSerializer
+    filterset_class = DateFilter
 
 @method_decorator(name='delete',
                   decorator=swagger_auto_schema(operation_id='Delete date arrival and departure',
