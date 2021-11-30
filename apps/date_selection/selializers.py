@@ -50,9 +50,9 @@ class DateSelectionModelSerializer(ModelSerializer):
 
         TypeToken.send_email_sleep(email, name=name, date_arrival=date_arrival,date_departure=date_departure,
                                    cost=cost, number_days=number_days,number_peoples=number_peoples)
-        # type = TypeToken.send_email_user()
-        # print(type, '_____________________________________________________')
-        # if type == 'yes':
+        # type_token = TypeToken.send_email_user()
+
+        # if type_token == 'yes':
         #     EmailUtils.lease_confirmation_tenant(email, name=name, date_arrival=date_arrival,
         #                                          date_departure=date_departure, cost=cost, number_days=number_days,
         #                                          number_peoples=number_peoples)
