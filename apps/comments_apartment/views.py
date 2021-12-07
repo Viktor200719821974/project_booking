@@ -21,7 +21,7 @@ class CommentsApartmentListView(ListAPIView):
     serializer_class = CommentsApartmentModelSerializer
 
     def get_permissions(self):
-        return IsAdminUser(),
+        return AllowAny(),
 
 
 @method_decorator(name='get',

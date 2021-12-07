@@ -5,7 +5,7 @@ from rest_framework.response import Response
 
 
 class PageNumberPaginator(Paginator):
-    page_size = 5
+    page_size = 18
     page_size_query_param = 'size'
     max_page_size = 10
 
