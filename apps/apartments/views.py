@@ -139,17 +139,17 @@ class CommentApartmentAddView(CreateAPIView):
     permission_classes = (CommentRentedApartment,)
 
     def post(self, request, *args, **kwargs):
-        global average_rating
+        # global average_rating
         pk = kwargs.get('pk')
         data = self.request.data
-        exists = CommentsApartmentModel.objects.filter(apartment_id=pk).exists()
-        if exists:
-            average_rating = AverageRating.average_rating_apartment(pk)
+        # exists = CommentsApartmentModel.objects.filter(apartment_id=pk).exists()
+        # if exists:
+        #     average_rating = AverageRating.average_rating_apartment(pk)
         exists = ApartmentModel.objects.filter(pk=pk).exists()
         if not exists:
             raise REQUESTException
         apartment = ApartmentModel.objects.get(pk=pk)
         serializer = CommentsApartmentModelSerializer(data=data)
         serializer.is_valid(raise_exception=True)
-        serializer.save(apartment=apartment, average_rating=average_rating)
+        serializer.save(apartment=apartment)
         return Response(serializer.data, status.HTTP_201_CREATED)

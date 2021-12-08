@@ -11,7 +11,7 @@ class AverageRating:
             list_rating_apartment.append(i['rating'])
         print(list_rating_apartment)
         average = sum(list_rating_apartment) / len(list_rating_apartment)
-        return round(average, 2)
+        return round(average, 0)
 
     @classmethod
     def average_rating_user(cls, pk):

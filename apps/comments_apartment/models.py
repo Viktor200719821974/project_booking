@@ -11,8 +11,8 @@ class CommentsApartmentModel(models.Model):
         ordering = ('id',)
 
     comments = models.CharField(max_length=200)
-    rating = models.FloatField(max_length=3, validators=[V.MinValueValidator(1, 2), V.MaxValueValidator(5, 2)])
-    average_rating = models.FloatField(default=False)
+    rating = models.IntegerField(validators=[V.MinValueValidator(1), V.MaxValueValidator(10)])
+    # average_rating = models.FloatField(default=False)
     apartment = models.ForeignKey(ApartmentModel, on_delete=models.CASCADE, related_name='comments_apartment')
 
 
