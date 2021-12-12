@@ -15,7 +15,6 @@ from ..comments_apartment.serializers import CommentsApartmentModelSerializer
 from ..date_selection.models import DateSelectionModel
 from ..date_selection.selializers import DateSelectionModelSerializer
 from ..users.permissions import CommentRentedApartment
-from bookingApps.utils.rating_utils import AverageRating
 
 
 @method_decorator(name='get',
@@ -139,12 +138,8 @@ class CommentApartmentAddView(CreateAPIView):
     permission_classes = (CommentRentedApartment,)
 
     def post(self, request, *args, **kwargs):
-        # global average_rating
         pk = kwargs.get('pk')
         data = self.request.data
-        # exists = CommentsApartmentModel.objects.filter(apartment_id=pk).exists()
-        # if exists:
-        #     average_rating = AverageRating.average_rating_apartment(pk)
         exists = ApartmentModel.objects.filter(pk=pk).exists()
         if not exists:
             raise REQUESTException

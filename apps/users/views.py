@@ -5,7 +5,7 @@ from drf_yasg.utils import swagger_auto_schema
 
 from rest_framework import status
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, GenericAPIView, CreateAPIView
-from rest_framework.permissions import AllowAny, IsAdminUser
+from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 
 from bookingApps.utils.rating_utils import AverageRating
@@ -68,7 +68,8 @@ class UserRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     serializer_class = UserModelSerializer
 
     def get_permissions(self):
-        return IsAdminUser(),
+        return AllowAny,
+        # return IsAuthenticated,
 
 
 @method_decorator(name='patch',

@@ -16,8 +16,8 @@ class CommentsApartmentModelSerializer(ModelSerializer):
         model = CommentsApartmentModel
         fields = ('apartment', 'comments', 'rating', 'photo_comments_apartment',)
         extra_kwargs = {
-            'apartment': {'read_only': True}
+            'apartment': {'read_only': True},
         }
-        # exclude = ('apartment', 'average_rating',)
+
 
 
