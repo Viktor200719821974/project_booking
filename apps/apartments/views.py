@@ -14,6 +14,7 @@ from ..comments_apartment.models import CommentsApartmentModel
 from ..comments_apartment.serializers import CommentsApartmentModelSerializer
 from ..date_selection.models import DateSelectionModel
 from ..date_selection.selializers import DateSelectionModelSerializer
+from ..profile.models import ProfileModel
 from ..users.permissions import CommentRentedApartment
 
 
@@ -64,6 +65,7 @@ class ApartmentRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     """
     queryset = ApartmentModel.objects.all()
     serializer_class = ApartmentModelSerializer
+    # permission_classes = (AddDeleteApartment,)
 
     def get_permissions(self):
         if self.request.method == 'GET':
@@ -138,13 +140,15 @@ class CommentApartmentAddView(CreateAPIView):
     permission_classes = (CommentRentedApartment,)
 
     def post(self, request, *args, **kwargs):
+        userId = request.user.id
         pk = kwargs.get('pk')
         data = self.request.data
+        name = ProfileModel.objects.filter(user_id=userId).values('name')[0].get('name')
         exists = ApartmentModel.objects.filter(pk=pk).exists()
         if not exists:
             raise REQUESTException
         apartment = ApartmentModel.objects.get(pk=pk)
         serializer = CommentsApartmentModelSerializer(data=data)
         serializer.is_valid(raise_exception=True)
-        serializer.save(apartment=apartment)
+        serializer.save(apartment=apartment, name_user=name)
         return Response(serializer.data, status.HTTP_201_CREATED)

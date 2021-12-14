@@ -14,7 +14,7 @@ class CommentsApartmentModelSerializer(ModelSerializer):
 
     class Meta:
         model = CommentsApartmentModel
-        fields = ('apartment', 'comments', 'rating', 'photo_comments_apartment',)
+        fields = ('apartment', 'comments', 'rating', 'photo_comments_apartment', 'name_user',)
         extra_kwargs = {
             'apartment': {'read_only': True},
         }
