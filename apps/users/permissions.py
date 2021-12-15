@@ -2,7 +2,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import BasePermission
 
 from apps.date_selection.models import DateSelectionModel
-from exeptions.jwt_exeption import AuthenticatedCommentApartment, AuthenticatedCommentUser
+from exeptions.jwt_exeption import AuthenticatedCommentApartment, AuthenticatedCommentUser, AddDeleteApartmentException
 from apps.apartments.models import ApartmentModel
 from apps.users.models import UserModel
 
@@ -35,17 +35,13 @@ class CommentOfUserRentedApartment(BasePermission):
             raise AuthenticatedCommentUser
         return bool(request.user)
 
-# class AddDeleteApartment(BasePermission):
-#
-#     def has_permission(self, request, view, **kwargs):
-#         email = request.user
-#         pk = request.
-#         address = get_object_or_404(ApartmentModel, pk=pk)
-#         print(pk)
-#         print(type(request))
-#         userId = UserModel.objects.filter(email=email).values('id')[0].get('id')
-#         print(userId)
-#         exists = ApartmentModel.objects.filter(user_apartment=userId).exists()
-#         if not exists:
-#             raise AuthenticatedCommentUser
-#         return bool(request.user)
+class AddDeleteApartment(BasePermission):
+
+    def has_permission(self, request, view):
+        email = request.user
+        pk = view.kwargs.get('pk')
+        userId = UserModel.objects.filter(email=email).values('id')[0].get('id')
+        apartment = ApartmentModel.objects.filter(pk=pk).values('user_apartment')[0].get('user_apartment')
+        if apartment != userId:
+            raise AddDeleteApartmentException
+        return bool(request.user)

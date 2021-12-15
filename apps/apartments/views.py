@@ -15,7 +15,7 @@ from ..comments_apartment.serializers import CommentsApartmentModelSerializer
 from ..date_selection.models import DateSelectionModel
 from ..date_selection.selializers import DateSelectionModelSerializer
 from ..profile.models import ProfileModel
-from ..users.permissions import CommentRentedApartment
+from ..users.permissions import CommentRentedApartment, AddDeleteApartment
 
 
 @method_decorator(name='get',
@@ -65,12 +65,12 @@ class ApartmentRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     """
     queryset = ApartmentModel.objects.all()
     serializer_class = ApartmentModelSerializer
-    # permission_classes = (AddDeleteApartment,)
 
     def get_permissions(self):
         if self.request.method == 'GET':
             return AllowAny(),
-        return IsAdminUser(),
+        return (AddDeleteApartment(),)
+
 
 
 @method_decorator(name='patch',

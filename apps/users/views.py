@@ -66,7 +66,7 @@ class UserRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     """
     queryset = UserModel.objects.all()
     serializer_class = UserModelSerializer
-    permission_classes = (AllowAny,)
+    # permission_classes = (AllowAny,)
 
     # def get_permissions(self):
     #     if self.request.method == 'GET':
