@@ -72,7 +72,6 @@ class ApartmentRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
         return (AddDeleteApartment(),)
 
 
-
 @method_decorator(name='patch',
                   decorator=swagger_auto_schema(operation_id='Add photo rooms', operation_summary='Add photo'))
 class PhotoRoomsView(GenericAPIView):

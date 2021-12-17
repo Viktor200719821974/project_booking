@@ -14,6 +14,7 @@ from .serializers import UserModelSerializer
 from .permissions import IsSuperUser, IsManagerUser, CommentOfUserRentedApartment
 from ..comments_user.models import CommentsUserModel
 from ..comments_user.serializers import CommentsUserModelSerializer
+from ..profile.models import ProfileModel
 
 UserModel: User = get_user_model()
 
@@ -150,8 +151,10 @@ class CommentUserAddView(CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         global average_rating
+        userId = request.user.id
         pk = kwargs.get('pk')
         data = self.request.data
+        name = ProfileModel.objects.filter(user_id=userId).values('name')[0].get('name')
         exists = UserModel.objects.filter(pk=pk).exists()
         if not exists:
             raise REQUESTException
@@ -161,5 +164,5 @@ class CommentUserAddView(CreateAPIView):
             average_rating = AverageRating.average_rating_user(pk)
         serializer = CommentsUserModelSerializer(data=data)
         serializer.is_valid(raise_exception=True)
-        serializer.save(user=user, average_rating=average_rating)
+        serializer.save(user=user, average_rating=average_rating, user_name=name)
         return Response(serializer.data, status.HTTP_201_CREATED)

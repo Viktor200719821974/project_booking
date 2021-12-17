@@ -14,4 +14,8 @@ class CommentsUserModelSerializer(ModelSerializer):
 
     class Meta:
         model = CommentsUserModel
-        exclude = ('user', 'average_rating',)
+        fields = ('user', 'comments', 'rating', 'user_name', 'photo_comments_user', 'average_rating',)
+        extra_kwargs = {
+            'user': {'read_only': True},
+            'average_rating': {'read_only': True},
+        }
