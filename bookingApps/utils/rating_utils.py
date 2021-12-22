@@ -19,5 +19,7 @@ class AverageRating:
         list_rating_user = []
         for i in rating_user_db:
             list_rating_user.append(i['rating'])
+        if (len(list_rating_user) == 0):
+            return 1
         average = sum(list_rating_user) / len(list_rating_user)
         return round(average, 2)

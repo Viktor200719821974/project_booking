@@ -4,6 +4,7 @@ from rest_framework.serializers import ModelSerializer
 
 from bookingApps.utils.email_utils import EmailUtils
 from bookingApps.utils.jwt_utils import JwtUtils
+from bookingApps.utils.rating_utils import AverageRating
 from bookingApps.utils.type_token_utils import TypeToken
 from enums.action_token import ActionTokenEnum
 from exeptions.jwt_exeption import NoRentException
@@ -39,8 +40,7 @@ class DateSelectionModelSerializer(ModelSerializer):
         surname = ProfileModel.objects.filter(user_id=user_id).values('surname')[0].get('surname')
         age_user = ProfileModel.objects.filter(user_id=user_id).values('age')[0].get('age')
         phone_user = ProfileModel.objects.filter(user_id=user_id).values('phone')[0].get('phone')
-        average_rating = CommentsUserModel.objects.filter(user_id=user_id).values('average_rating')[0].get(
-            'average_rating')
+        average_rating = AverageRating.average_rating_user(pk=user_id)
         EmailUtils.lease_confirmation_homeowner(email_apartment, name=name_apartment, date_arrival=date_arrival,
                                                 date_departure=date_departure, cost=cost, number_days=number_days,
                                                 number_peoples=number_peoples, name_user=name, surname_user=surname,
@@ -51,7 +51,7 @@ class DateSelectionModelSerializer(ModelSerializer):
         TypeToken.send_email_sleep(email, name=name, date_arrival=date_arrival,date_departure=date_departure,
                                    cost=cost, number_days=number_days,number_peoples=number_peoples)
         type_token = TypeToken.send_email_user()
-
+        print(type_token)
         if type_token == 'yes':
             EmailUtils.lease_confirmation_tenant(email, name=name, date_arrival=date_arrival,
                                                  date_departure=date_departure, cost=cost, number_days=number_days,

@@ -36,3 +36,7 @@ class NoRentException(Exception):
 
 class AddDeleteApartmentException(Exception):
     pass
+
+
+class BadDateRequestException(Exception):
+    pass

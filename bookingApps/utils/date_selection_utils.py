@@ -3,6 +3,7 @@ import datetime
 from rest_framework.request import Request
 
 from apps.date_selection.models import DateSelectionModel
+from exeptions.jwt_exeption import BadDateRequestException
 
 
 class DateSelectionUtils:
@@ -55,7 +56,11 @@ class DateSelectionUtils:
     @classmethod
     def date_selection(cls, request: Request):
         date_arrival = request.data['date_arrival']
+        if not date_arrival:
+           raise BadDateRequestException
         date_departure = request.data['date_departure']
+        if not date_departure:
+            raise BadDateRequestException
         date_arrival = datetime.date(*[int(i) for i in date_arrival.split("-")])
         date_departure = datetime.date(*[int(i) for i in date_departure.split("-")])
         numbers_days = str(date_departure - date_arrival)

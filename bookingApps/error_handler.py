@@ -15,6 +15,7 @@ def custom_exception_handler(exc, content) -> Response:
         'AuthenticatedCommentUser': _aunticated_comment_user_error,
         'NoRentException': _no_rent_error,
         'AddDeleteApartmentException': _add_delete_apartment_error,
+        'BadDateRequestException': _bad_date_request_error,
     }
     response = exception_handler(exc, content)
     exc_class = exc.__class__.__name__
@@ -83,3 +84,9 @@ def _add_delete_apartment_error(exc, content) -> Response:
     print(exc.__class__)
     print(content)
     return Response(ErrorEnum.ADDDELAPART.msg, ErrorEnum.ADDDELAPART.code)
+
+
+def _bad_date_request_error(exc, content) -> Response:
+    print(exc.__class__)
+    print(content)
+    return Response(ErrorEnum.BADDATEREQUEST.msg, ErrorEnum.BADDATEREQUEST.code)
