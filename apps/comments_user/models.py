@@ -11,7 +11,7 @@ class CommentsUserModel(models.Model):
         ordering = ('id',)
 
     comments = models.CharField(max_length=200)
-    rating = models.FloatField(max_length=3, validators=[V.MinValueValidator(1, 3), V.MaxValueValidator(5, 3)])
+    rating = models.FloatField(max_length=3, validators=[V.MinValueValidator(1, 3), V.MaxValueValidator(10, 3)])
     average_rating = models.FloatField(default=0)
     user_name = models.CharField(max_length=30, default='Anonymous')
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='comments_user')
