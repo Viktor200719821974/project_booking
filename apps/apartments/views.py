@@ -140,6 +140,7 @@ class CommentApartmentAddView(CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         userId = request.user.id
+        user_email = request.user.email
         pk = kwargs.get('pk')
         data = self.request.data
         name = ProfileModel.objects.filter(user_id=userId).values('name')[0].get('name')
@@ -149,5 +150,5 @@ class CommentApartmentAddView(CreateAPIView):
         apartment = ApartmentModel.objects.get(pk=pk)
         serializer = CommentsApartmentModelSerializer(data=data)
         serializer.is_valid(raise_exception=True)
-        serializer.save(apartment=apartment, name_user=name)
+        serializer.save(apartment=apartment, name_user=name, user_id=userId, user_email=user_email)
         return Response(serializer.data, status.HTTP_201_CREATED)

@@ -18,7 +18,16 @@ from apps.comments_user.models import CommentsUserModel
 class DateSelectionModelSerializer(ModelSerializer):
     class Meta:
         model = DateSelectionModel
-        exclude = ('apartment', 'number_days', 'user_email', 'cost',)
+        fields = ('id', 'apartment', 'date_arrival', 'date_departure', 'number_days', 'cost', 'user_email',
+                  'number_peoples',)
+        extra_kwargs = {
+            'apartment': {'read_only': True},
+            'id': {'read_only': True},
+            'cost': {'read_only': True},
+            'number_days': {'read_only': True},
+            'user_email': {'read_only': True},
+        }
+        # exclude = ('apartment', 'number_days', 'user_email', 'cost',)
 
     def create(self, validated_data: dict):
         request = self.context.get('request')
@@ -51,7 +60,6 @@ class DateSelectionModelSerializer(ModelSerializer):
         TypeToken.send_email_sleep(email, name=name, date_arrival=date_arrival,date_departure=date_departure,
                                    cost=cost, number_days=number_days,number_peoples=number_peoples)
         type_token = TypeToken.send_email_user()
-        print(type_token)
         if type_token == 'yes':
             EmailUtils.lease_confirmation_tenant(email, name=name, date_arrival=date_arrival,
                                                  date_departure=date_departure, cost=cost, number_days=number_days,

@@ -14,9 +14,8 @@ class CommentsUserModelSerializer(ModelSerializer):
 
     class Meta:
         model = CommentsUserModel
-        fields = ('user', 'comments', 'rating', 'user_name', 'photo_comments_user', 'average_rating', 'id',)
+        fields = ('user', 'comments', 'rating', 'user_name', 'photo_comments_user', 'id',)
         extra_kwargs = {
             'user': {'read_only': True},
-            'average_rating': {'read_only': True},
             'id': {'read_only': True},
         }
