@@ -19,13 +19,15 @@ class DateSelectionModelSerializer(ModelSerializer):
     class Meta:
         model = DateSelectionModel
         fields = ('id', 'apartment', 'date_arrival', 'date_departure', 'number_days', 'cost', 'user_email',
-                  'number_peoples',)
+                  'number_peoples', 'name_user', 'user_id',)
         extra_kwargs = {
             'apartment': {'read_only': True},
             'id': {'read_only': True},
             'cost': {'read_only': True},
             'number_days': {'read_only': True},
             'user_email': {'read_only': True},
+            'name_user': {'read_only': True},
+            'user_id': {'read_only': True},
         }
         # exclude = ('apartment', 'number_days', 'user_email', 'cost',)
 

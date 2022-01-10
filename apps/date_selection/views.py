@@ -21,7 +21,6 @@ class YesRentView(GenericAPIView):
     def get(self, *args, **kwargs):
         token = kwargs.get('token_yes')
         token_type = JwtUtils(ActionTokenEnum.YES.token_type).validate_apartment_token(token)
-        print(token)
         TypeToken.type_token(token_type)
         return Response(status=status.HTTP_200_OK)
 
