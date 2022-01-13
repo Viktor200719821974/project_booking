@@ -22,6 +22,7 @@ class EmailUtils:
     @classmethod
     def register_email(cls, address: str, name: str, token: Token, request: Request) -> None:
         uri = request.build_absolute_uri(reverse('auth_activate', args=(token,)))
+        print(uri)
         cls._send_mail(address, TemplateEnum.REGISTER.value, {'name': name, "url": uri}, 'Register')
 
     @classmethod
