@@ -15,11 +15,10 @@ class CommentsApartmentModel(models.Model):
     name_user = models.CharField(max_length=30, default='Anonymous' )
     user_id = models.IntegerField(default=0)
     user_email = models.EmailField(default='None')
-    # average_rating = models.FloatField(default=False)
     apartment = models.ForeignKey(ApartmentModel, on_delete=models.CASCADE, related_name='comments_apartment')
 
 
-class PhotoModel(models.Model):
+class PhotoModelCommentsApartment(models.Model):
     class Meta:
         db_table = 'photo_comments_apartment'
 

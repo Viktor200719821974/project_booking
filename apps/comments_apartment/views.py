@@ -8,7 +8,7 @@ from rest_framework.permissions import AllowAny, IsAdminUser
 from exeptions.jwt_exeption import REQUESTException
 from .models import CommentsApartmentModel
 from .serializers import CommentsApartmentModelSerializer, PhotoCommentApartmentSerializer
-from .models import PhotoModel
+from .models import PhotoModelCommentsApartment
 
 
 @method_decorator(name='get',
@@ -66,14 +66,14 @@ class PhotoCommentApartmentView(GenericAPIView):
         add photo for comments apartment
     """
     serializer_class = PhotoCommentApartmentSerializer
-    queryset = PhotoModel.objects.all()
+    queryset = PhotoModelCommentsApartment.objects.all()
 
     def patch(self, *args, **kwargs):
         photo_data = self.request.FILES.get('photo_comments_apartment')
         serializer = PhotoCommentApartmentSerializer(data={'url': photo_data})
         serializer.is_valid(raise_exception=True)
         pk = kwargs.get('pk')
-        exists = PhotoModel.objects.filter(pk=pk).exists()
+        exists = CommentsApartmentModel.objects.filter(pk=pk).exists()
         if not exists:
             raise REQUESTException
         comment_photo = CommentsApartmentModel.objects.get(pk=pk)

@@ -1,11 +1,10 @@
 from rest_framework.serializers import ModelSerializer
-
-from .models import CommentsApartmentModel, PhotoModel
+from .models import CommentsApartmentModel, PhotoModelCommentsApartment
 
 
 class PhotoCommentApartmentSerializer(ModelSerializer):
     class Meta:
-        model = PhotoModel
+        model = PhotoModelCommentsApartment
         fields = ('url',)
 
 
