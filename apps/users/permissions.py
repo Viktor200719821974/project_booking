@@ -21,7 +21,8 @@ class IsManagerUser(BasePermission):
 class CommentRentedApartment(BasePermission):
     def has_permission(self, request, view):
         email = request.user
-        exists = DateSelectionModel.objects.filter(user_email=email).exists()
+        apartmentId = view.kwargs.get('pk')
+        exists = DateSelectionModel.objects.filter(user_email=email).filter(apartment_id=apartmentId).exists()
         if not exists:
             raise AuthenticatedCommentApartment
         return bool(request.user)
@@ -36,6 +37,7 @@ class CommentOfUserRentedApartment(BasePermission):
         if not boolApartments:
             raise AuthenticatedCommentApartment
         return bool(request.user)
+
 
 class AddDeleteApartment(BasePermission):
 

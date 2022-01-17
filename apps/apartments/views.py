@@ -141,7 +141,7 @@ class CommentApartmentAddView(CreateAPIView):
     """
     queryset = CommentsApartmentModel.objects.all()
     serializer_class = CommentsApartmentModelSerializer
-    permission_classes = (CommentRentedApartment,)
+    # permission_classes = (CommentRentedApartment,)
 
     def post(self, request, *args, **kwargs):
         userId = request.user.id

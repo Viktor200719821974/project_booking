@@ -63,6 +63,8 @@ class DateSelectionUtils:
             raise BadDateRequestException
         date_arrival = datetime.date(*[int(i) for i in date_arrival.split("-")])
         date_departure = datetime.date(*[int(i) for i in date_departure.split("-")])
+        if (date_departure < date_arrival):
+            raise BadDateRequestException
         numbers_days = str(date_departure - date_arrival)
         numbers_days = [int(i) for i in numbers_days.split() if i.isdigit()]
         numbers_days = numbers_days[0]
