@@ -6,7 +6,10 @@ from .models import CommentsUserModel, PhotoModel
 class PhotoCommentUserSerializer(ModelSerializer):
     class Meta:
         model = PhotoModel
-        fields = ('url',)
+        fields = ('url', 'id',)
+        extra_kwargs = {
+            'id': {'read_only': True},
+        }
 
 
 class CommentsUserModelSerializer(ModelSerializer):

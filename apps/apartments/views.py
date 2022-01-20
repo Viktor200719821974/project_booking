@@ -70,7 +70,7 @@ class ApartmentRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     def get_permissions(self):
         if self.request.method == 'GET':
             return AllowAny(),
-        return (AddDeleteApartment(),)
+        return AddDeleteApartment(),
 
 
 @method_decorator(name='patch',
@@ -94,6 +94,18 @@ class PhotoRoomsView(GenericAPIView):
         return Response(apartment_serializer, status.HTTP_200_OK)
 
 
+class PhotoRoomsDeletedView(RetrieveUpdateDestroyAPIView):
+    """
+    delete:
+        delete photo rooms
+    """
+    serializer_class = PhotoRoomsSerializer
+    queryset = PhotoRoomsModel.objects.all()
+
+    def get_permissions(self):
+        return IsAdminUser(),
+
+
 @method_decorator(name='post',
                   decorator=swagger_auto_schema(operation_id='Selected date arrival and departure',
                                                 operation_summary='Selected date'))
@@ -112,7 +124,7 @@ class DateSelectionCreateView(GenericAPIView):
         price = ApartmentModel.objects.filter(pk=pk).values('price')[0].get('price')
         userId = UserModel.objects.filter(email=email).values('id')[0].get('id')
         name = ProfileModel.objects.filter(user_id=userId).values('name')[0].get('name')
-        if (not name):
+        if not name:
             return name == 'Anonymous'
         numbers_days = DateSelectionUtils.date_selection(self.request)
         cost = numbers_days * price
@@ -141,7 +153,7 @@ class CommentApartmentAddView(CreateAPIView):
     """
     queryset = CommentsApartmentModel.objects.all()
     serializer_class = CommentsApartmentModelSerializer
-    # permission_classes = (CommentRentedApartment,)
+    permission_classes = (CommentRentedApartment,)
 
     def post(self, request, *args, **kwargs):
         userId = request.user.id

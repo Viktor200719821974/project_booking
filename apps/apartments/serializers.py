@@ -8,7 +8,10 @@ from apps.date_selection.selializers import DateSelectionModelSerializer
 class PhotoRoomsSerializer(ModelSerializer):
     class Meta:
         model = PhotoRoomsModel
-        fields = ('url',)
+        fields = ('url', 'id',)
+        extra_kwargs= {
+            'id': {'read_only': True},
+        }
 
 
 class ApartmentModelSerializer(ModelSerializer):

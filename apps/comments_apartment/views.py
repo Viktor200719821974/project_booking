@@ -80,3 +80,15 @@ class PhotoCommentApartmentView(GenericAPIView):
         serializer.save(photo=comment_photo)
         comment_photo_serializer = CommentsApartmentModelSerializer(comment_photo).data
         return Response(comment_photo_serializer, status.HTTP_200_OK)
+
+
+class PhotoCommentApartmentDeletedView(RetrieveUpdateDestroyAPIView):
+    """
+    delete:
+        delete photo comment apartment
+    """
+    serializer_class = PhotoCommentApartmentSerializer
+    queryset = PhotoModelCommentsApartment.objects.all()
+
+    def get_permissions(self):
+        return IsAdminUser(),

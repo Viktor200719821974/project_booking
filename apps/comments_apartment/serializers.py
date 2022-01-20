@@ -5,7 +5,10 @@ from .models import CommentsApartmentModel, PhotoModelCommentsApartment
 class PhotoCommentApartmentSerializer(ModelSerializer):
     class Meta:
         model = PhotoModelCommentsApartment
-        fields = ('url',)
+        fields = ('url', 'id',)
+        extra_kwargs = {
+            'id': {'read_only': True},
+        }
 
 
 class CommentsApartmentModelSerializer(ModelSerializer):
