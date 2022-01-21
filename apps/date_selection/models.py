@@ -19,4 +19,5 @@ class DateSelectionModel(models.Model):
     number_peoples = models.IntegerField()
     user_id = models.IntegerField(default=0)
     name_user = models.CharField(max_length=20, default='Anonymous')
+    surname_user = models.CharField(max_length=20, default='Anonymous')
     apartment = models.ForeignKey(ApartmentModel, on_delete=models.CASCADE, related_name='date_selection')

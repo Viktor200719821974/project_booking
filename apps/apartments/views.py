@@ -124,8 +124,11 @@ class DateSelectionCreateView(GenericAPIView):
         price = ApartmentModel.objects.filter(pk=pk).values('price')[0].get('price')
         userId = UserModel.objects.filter(email=email).values('id')[0].get('id')
         name = ProfileModel.objects.filter(user_id=userId).values('name')[0].get('name')
+        surname = ProfileModel.objects.filter(user_id=userId).values('surname')[0].get('surname')
         if not name:
             return name == 'Anonymous'
+        if not surname:
+            return surname == 'Anonymous'
         numbers_days = DateSelectionUtils.date_selection(self.request)
         cost = numbers_days * price
         exists = ApartmentModel.objects.filter(pk=pk).exists()
@@ -139,7 +142,7 @@ class DateSelectionCreateView(GenericAPIView):
         serializer = DateSelectionModelSerializer(data=data, context={'request': self.request})
         serializer.is_valid(raise_exception=True)
         serializer.save(apartment=apartment, number_days=numbers_days, cost=cost, user_email=email,
-                        free_seats=free_seats, user_id=userId, name_user=name)
+                        free_seats=free_seats, user_id=userId, name_user=name, surname_user=surname)
         return Response(serializer.data, status.HTTP_201_CREATED)
 
 
