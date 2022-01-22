@@ -22,7 +22,7 @@ class TypeToken:
                          cost: float, number_days: datetime, number_peoples: int):
 
         start_time = time.time()
-        CLOSE_AFTER = 300
+        CLOSE_AFTER = 7200
 
         while True:
 
