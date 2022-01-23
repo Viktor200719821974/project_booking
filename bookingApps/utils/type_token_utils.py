@@ -1,5 +1,6 @@
 import time
 from datetime import datetime
+import threading
 
 from bookingApps.utils.email_utils import EmailUtils
 from exeptions.jwt_exeption import NoRentException
@@ -16,6 +17,8 @@ class TypeToken:
     def send_email_user(cls):
         type = cls.token_type
         return type
+
+    threading.Thread(target=send_email_user)
 
     @classmethod
     def send_email_sleep(cls, email, name: str, date_arrival: datetime, date_departure: datetime,
@@ -37,9 +40,7 @@ class TypeToken:
                 EmailUtils.lease_confirmation_tenant_rent_no(email, name=name, date_arrival=date_arrival,
                                                              date_departure=date_departure)
                 raise NoRentException
-
-
-
             else:
                 continue
 
+    threading.Thread(target=send_email_sleep)
