@@ -102,8 +102,6 @@ class PhotoRoomsDeletedView(RetrieveUpdateDestroyAPIView):
     serializer_class = PhotoRoomsSerializer
     queryset = PhotoRoomsModel.objects.all()
 
-    def get_permissions(self):
-        return IsAdminUser(),
 
 
 @method_decorator(name='post',
