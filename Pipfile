@@ -17,6 +17,7 @@ django-cors-headers = "*"
 django-dotenv = "*"
 django-filter = "*"
 drf-yasg = "*"
+djoser = "*"
 
 [dev-packages]
 

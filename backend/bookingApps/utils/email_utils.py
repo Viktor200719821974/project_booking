@@ -22,8 +22,8 @@ class EmailUtils:
     @classmethod
     def register_email(cls, address: str, name: str, token: Token, request: Request) -> None:
         uri = request.build_absolute_uri(reverse('auth_activate', args=(token,)))
-        print(uri)
         cls._send_mail(address, TemplateEnum.REGISTER.value, {'name': name, "url": uri}, 'Register')
+
 
     @classmethod
     def recovery_password_email(cls, address: str, token: Token, request: Request) -> None:
@@ -40,7 +40,7 @@ class EmailUtils:
 
     @classmethod
     def lease_confirmation_tenant_rent_no(cls, address: str, name: str, date_arrival: datetime,
-                                          date_departure: datetime,) -> None:
+                                          date_departure: datetime, ) -> None:
         cls._send_mail(address, TemplateEnum.TENANT_NO_RENT.value, {'name': name, 'date_arrival': date_arrival,
                                                                     'date_departure': date_departure}, 'Tenant No Rent')
 
