@@ -19,10 +19,10 @@ class EmailUtils:
         msg.attach_alternative(html_content, "text/html")
         msg.send()
 
-    @classmethod
-    def register_email(cls, address: str, name: str, token: Token, request: Request) -> None:
-        uri = request.build_absolute_uri(reverse('auth_activate', args=(token,)))
-        cls._send_mail(address, TemplateEnum.REGISTER.value, {'name': name, "url": uri}, 'Register')
+    # @classmethod
+    # def register_email(cls, address: str, name: str, token: Token, request: Request) -> None:
+    #     uri = request.build_absolute_uri(reverse('auth_activate', args=(token,)))
+    #     cls._send_mail(address, TemplateEnum.REGISTER.value, {'name': name, "url": uri}, 'Register')
 
 
     @classmethod

@@ -1,12 +1,10 @@
-import requests
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.utils.decorators import method_decorator
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework.decorators import api_view
 
 from bookingApps.utils.jwt_utils import JwtUtils
-from rest_framework import status, permissions
+from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -32,17 +30,6 @@ class ActivateView(GenericAPIView):
     permission_classes = (AllowAny,)
     queryset = User.objects.all()
     serializer_class = UserModelSerializer
-
-    # @api_view(["GET"])
-    # def request_user_activation(request, uid, token):
-    #     """
-    #     Intermediate view to activate a user's email.
-    #     """
-    #     post_url = "http://127.0.0.1:8000/auth/users/activation/"
-    #     post_data = {"uid": uid, "token": token}
-    #     result = requests.post(post_url, data=post_data)
-    #     content = result.text
-    #     return Response(content)
 
     @staticmethod
     def get(*args, **kwargs):
