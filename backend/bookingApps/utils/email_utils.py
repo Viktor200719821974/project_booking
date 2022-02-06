@@ -21,9 +21,9 @@ class EmailUtils:
 
     @classmethod
     def register_email(cls, address: str, name: str, token: Token, request: Request) -> None:
-        uri = request.build_absolute_uri(reverse('auth_activate', args=(token,)))
-        cls._send_mail(address, TemplateEnum.REGISTER.value, {'name': name, "url": uri}, 'Register')
-
+        # uri = request.build_absolute_uri('http://localhost:3000/register/activate/', token)
+        cls._send_mail(address, TemplateEnum.REGISTER.value,
+                       {'name': name, "url": 'http://localhost:3000/register/activate/' + str(token)}, 'Register')
 
     @classmethod
     def recovery_password_email(cls, address: str, token: Token, request: Request) -> None:
@@ -48,15 +48,20 @@ class EmailUtils:
     def lease_confirmation_homeowner(cls, address: str, name: str, date_arrival: datetime, date_departure: datetime,
                                      cost: float, number_days: datetime, number_peoples: int, name_user: str,
                                      surname_user: str, age_user: int, phone_user: str, average_rating: float,
-                                     token_no: Token, token_yes: Token, request: Request) -> None:
-        uri_yes = request.build_absolute_uri(reverse('date_selection_yes', args=(token_yes,)))
-        uri_no = request.build_absolute_uri(reverse('date_selection_no', args=(token_no,)))
-
+                                     token_no: Token, token_yes: Token, pk: int, user_id: int,
+                                     request: Request) -> None:
+        # uri_yes = request.build_absolute_uri(reverse('date_selection_yes', args=(token_yes,)))
+        # uri_no = request.build_absolute_uri(reverse('date_selection_no', args=(token_no,)))
         cls._send_mail(address, TemplateEnum.HOMEOWNER.value, {'name': name, 'date_arrival': date_arrival,
                                                                'date_departure': date_departure,
                                                                'number_days': number_days, 'cost': cost,
                                                                'number_peoples': number_peoples, 'name_user': name_user,
                                                                'surname_user': surname_user, 'age_user': age_user,
                                                                'phone_user': phone_user, 'average_rating':
-                                                                   average_rating, 'url_yes': uri_yes,
-                                                               'url_no': uri_no}, 'Homeowner')
+                                                                   average_rating,
+                                                               'url_yes': 'http://localhost:3000/activate/yes/' + str(
+                                                                   pk) + '/' + str(user_id) + '/' +
+                                                                          str(token_yes),
+                                                               'url_no': 'http://localhost:3000/activate/no/'
+                                                                         + str(pk) + '/' + str(user_id) + '/'
+                                                                         + str(token_no)}, 'Homeowner')

@@ -53,7 +53,8 @@ class DateSelectionModelSerializer(ModelSerializer):
         EmailUtils.lease_confirmation_homeowner(email_apartment, name=name_apartment, date_arrival=date_arrival,
                                                 date_departure=date_departure, cost=cost, number_days=number_days,
                                                 number_peoples=number_peoples, name_user=name, surname_user=surname,
-                                                age_user=age_user, phone_user=phone_user,
+                                                age_user=age_user, phone_user=phone_user, pk=pk,
+                                                user_id=user_id,
                                                 average_rating=average_rating, token_yes=token_yes, token_no=token_no,
                                                 request=request)
 

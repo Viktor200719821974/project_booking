@@ -5,7 +5,7 @@ from drf_yasg.utils import swagger_auto_schema
 
 from rest_framework import status
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, GenericAPIView, CreateAPIView
-from rest_framework.permissions import AllowAny, IsAdminUser
+from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 
 from exeptions.jwt_exeption import REQUESTException
@@ -68,10 +68,10 @@ class UserRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     serializer_class = UserModelSerializer
     # permission_classes = (AllowAny,)
 
-    # def get_permissions(self):
-    #     if self.request.method == 'GET':
-    #         return AllowAny,
-    #     return IsAuthenticated,
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return AllowAny(),
+        return IsAuthenticated(),
 
 
 @method_decorator(name='patch',
